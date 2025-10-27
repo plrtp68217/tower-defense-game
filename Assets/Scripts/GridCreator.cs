@@ -14,13 +14,11 @@ public class GridCreator : MonoBehaviour
     [SerializeField]
     private Terrain _terrain;
 
-    private LineRenderer _lineRenderer;
     private GameObject _gridObject;
 
     void Start()
     {
         ConfigureGridObject();
-        ConfigureLineRenderer();
         CreateGrid();
     }
 
@@ -32,17 +30,6 @@ public class GridCreator : MonoBehaviour
         _gridObject.transform.localPosition = Vector3.zero;
     }
 
-    private void ConfigureLineRenderer()
-    {
-        _lineRenderer = _gridObject.AddComponent<LineRenderer>();
-        _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        _lineRenderer.startColor = _color;
-        _lineRenderer.endColor = _color;
-        _lineRenderer.startWidth = 0.15f;
-        _lineRenderer.endWidth = 0.15f;
-        _lineRenderer.useWorldSpace = true;
-    }
-
     private void CreateGrid()
     {
 
@@ -51,12 +38,6 @@ public class GridCreator : MonoBehaviour
 
         int cellsX = Mathf.RoundToInt(terrainWidth / _cellSize);
         int cellsZ = Mathf.RoundToInt(terrainLength / _cellSize);
-
-        int totalLines = (cellsX + 1) + (cellsZ + 1);
-        int totalPositions = totalLines * 2;
-
-        _lineRenderer.positionCount = totalPositions;
-        Vector3[] positions = new Vector3[totalLines * 2];
 
         for (int i = 0; i <= cellsX; i++)
         {
@@ -77,13 +58,11 @@ public class GridCreator : MonoBehaviour
                 new Vector3(terrainWidth, _lineHeight, z)
             );
         }
-
-        _lineRenderer.SetPositions(positions);
     }
 
     private void CreateLine(Vector3 start, Vector3 end)
     {
-        GameObject lineObject = new GameObject("GridLine");
+        GameObject lineObject = new("GridLine");
         lineObject.transform.SetParent(_gridObject.transform);
 
         LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
