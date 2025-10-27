@@ -43,7 +43,7 @@ public class GridCreator : MonoBehaviour
         {
             float x = i * _cellSize;
 
-            CreateLine(
+            RenderLine(
                 new Vector3(x, _lineHeight, 0),
                 new Vector3(x, _lineHeight, terrainLength)
             );
@@ -53,18 +53,32 @@ public class GridCreator : MonoBehaviour
         {
             float z = i * _cellSize;
 
-            CreateLine(
+            RenderLine(
                 new Vector3(0, _lineHeight, z),
                 new Vector3(terrainWidth, _lineHeight, z)
             );
         }
     }
 
-    private void CreateLine(Vector3 start, Vector3 end)
+    private void RenderLine(Vector3 start, Vector3 end)
+    {
+        GameObject lineObject = CreateLine();
+        LineRenderer lineRenderer = CreateLineRenderer(lineObject);
+
+        lineRenderer.SetPosition(0, start);
+        lineRenderer.SetPosition(1, end);
+    }
+
+    private GameObject CreateLine()
     {
         GameObject lineObject = new("GridLine");
         lineObject.transform.SetParent(_gridObject.transform);
 
+        return lineObject;
+    }
+
+    private LineRenderer CreateLineRenderer(GameObject lineObject)
+    {
         LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = _color;
@@ -73,7 +87,7 @@ public class GridCreator : MonoBehaviour
         lineRenderer.endWidth = 0.15f;
         lineRenderer.useWorldSpace = true;
         lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, start);
-        lineRenderer.SetPosition(1, end);
+
+        return lineRenderer;
     }
 }
