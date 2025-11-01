@@ -8,7 +8,7 @@ public class GridCreator : MonoBehaviour
     private float _cellSize = 10f;
     [SerializeField]
     private Color _color = Color.white;
-    private readonly float _lineHeight = 2f;
+    private readonly float _lineHeight = 1f;
 
     [Header("Terrain")]
     [SerializeField]
