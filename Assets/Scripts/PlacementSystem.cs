@@ -98,7 +98,7 @@ public class PlacementSystem : MonoBehaviour
 
         _audioSourceSuccess.Play();
 
-        StopPlacement();
+        //StopPlacement();
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)

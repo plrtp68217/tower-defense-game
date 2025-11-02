@@ -65,9 +65,10 @@ public class PreviewSystem : MonoBehaviour
     private void ApplyFeedback(bool validity)
     {
        Color color = validity ? Color.white : Color.red;
-       _cellIndicatorRenderer.material.color = color;
        color.a = 0.5f;
-        _previewMaterialInstance.color = color;
+
+       _cellIndicatorRenderer.material.color = color;
+       _previewMaterialInstance.color = color;
     }
 
     private void PreparePreview(GameObject previewObject)
