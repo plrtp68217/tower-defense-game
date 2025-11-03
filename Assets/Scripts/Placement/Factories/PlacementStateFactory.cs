@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-public class PlacementStateFactory : IPlacementStateFactory
+public sealed class PlacementStateFactory : IPlacementStateFactory
 {
-    private readonly PlacementSystem _context;
+    private readonly PlacementSystemManager _context;
 
-    public PlacementStateFactory(PlacementSystem context)
+    public PlacementStateFactory(PlacementSystemManager context)
     {
         _context = context;
     }
 
-    public IPlacementState CreateState(PlacementStateType stateType)
+    public TState CreateState<TState>()
+        where TState : PlacementStateBase
     {
+        var stateType = typeof(TState);
+
         return stateType switch
         {
-            PlacementStateType.Default => new DefaultState(_context, PlacementStateType.Default),
-            PlacementStateType.Build => new BuildState(_context, PlacementStateType.Build),
-            _ => new DefaultState(_context, PlacementStateType.Default)
+            Type t when t == typeof(DefaultState)
+                => (TState)(PlacementStateBase)new DefaultState(_context),
+            Type t when t == typeof(BuildState)
+                => (TState)(PlacementStateBase)new BuildState(_context),
+            _
+                => throw new InvalidOperationException(
+                    $"Invalid {nameof(TState)} provided: {stateType.Name}"
+                )
         };
     }
 }
-

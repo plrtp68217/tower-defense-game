@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GridData
 {
@@ -9,7 +9,7 @@ public class GridData
     {
         List<Vector3Int> positionsToOccupy = CalculatePositions(gridPosition, objectSize);
 
-        PlacementData data = new (positionsToOccupy, ID, objectIndex);
+        PlacementData data = new(positionsToOccupy, ID, objectIndex);
 
         bool placementValidity = CanPlaceObject(gridPosition, objectSize);
 
@@ -43,7 +43,7 @@ public class GridData
     {
         List<Vector3Int> returnValue = new();
 
-        for (int x = 0;  x < objectSize.x; x++)
+        for (int x = 0; x < objectSize.x; x++)
         {
             for (int y = 0; y < objectSize.y; y++)
             {
@@ -59,9 +59,9 @@ public class PlacementData
 {
     public List<Vector3Int> occupiedPositions;
 
-    public int  ID { get; private set; }
+    public int ID { get; private set; }
 
-    public int  PlacedObjectIndex { get; private set; }
+    public int PlacedObjectIndex { get; private set; }
 
     public PlacementData(List<Vector3Int> occupiedPositions, int ID, int placedObjectIndex)
     {

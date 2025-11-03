@@ -897,7 +897,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1653618360}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
         m_MethodName: StopPlacement
         m_Mode: 1
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1653618360}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
         m_MethodName: StartPlacement
         m_Mode: 3
@@ -1691,7 +1691,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1653618360}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
         m_MethodName: StartPlacement
         m_Mode: 3
@@ -1750,7 +1750,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1653618359}
-  - component: {fileID: 1653618360}
   - component: {fileID: 1653618361}
   m_Layer: 0
   m_Name: PlacementSystem
@@ -1774,28 +1773,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1520758355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1653618360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653618358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb1e2d65ca4d0c94fa85bca97da80747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlacementSystem
-  _inputManager: {fileID: 184030655}
-  _previewSystem: {fileID: 2117310280}
-  _gridVisualisation: {fileID: 1210874072}
-  _grid: {fileID: 2062410502}
-  _database: {fileID: 11400000, guid: 6b6aeb114d736c04e836b9462d8a8fa1, type: 2}
-  _audioSourceSuccess: {fileID: 1653618361}
-  _building1Button: {fileID: 1643077051}
-  _building2Button: {fileID: 2092163153}
-  _building3Button: {fileID: 1290508357}
-  _escapeButton: {fileID: 700983826}
 --- !u!82 &1653618361
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2306,7 +2283,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1653618360}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
         m_MethodName: StartPlacement
         m_Mode: 3

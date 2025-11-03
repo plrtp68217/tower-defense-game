@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BuildState : IPlacementState
+public sealed class BuildState : PlacementStateBase
 {
-    private readonly PlacementSystem _context;
+    private readonly PlacementSystemManager _context;
     private int _selectedObjectIndex;
 
-    public PlacementStateType StateType { get; }
-
-    public BuildState(PlacementSystem context, PlacementStateType stateType)
+    public BuildState(PlacementSystemManager context)
     {
         _context = context;
-        StateType = stateType;
     }
 
-    public void OnEnter(int objectID = -1)
+    public override void OnEnter(int objectID = -1)
     {
         _context.ShowVisual();
 
@@ -29,22 +24,20 @@ public class BuildState : IPlacementState
         );
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         Vector3 mousePosition = _context.InputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = _context.Grid.WorldToCell(mousePosition);
 
         bool placementValidity = CheckPlacementValidity(gridPosition, _selectedObjectIndex);
 
-        _context.PreviewSystem.UpdatePosition(_context.Grid.CellToWorld(gridPosition), placementValidity);
+        _context.PreviewSystem.UpdatePosition(
+            _context.Grid.CellToWorld(gridPosition),
+            placementValidity
+        );
     }
 
-    public void OnExit()
-    {
-
-    }
-
-    public void OnClick()
+    public override void OnClick()
     {
         if (_context.InputManager.IsPointerOverUI())
         {

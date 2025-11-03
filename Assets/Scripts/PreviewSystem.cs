@@ -48,10 +48,11 @@ public class PreviewSystem : MonoBehaviour
         MoveCursor(position);
         ApplyFeedback(validity);
     }
+
     private void MovePreview(Vector3 position)
     {
         _previewObject.transform.position = new Vector3(
-            position.x, 
+            position.x,
             position.y + _previewYOffset,
             position.z
         );
@@ -64,11 +65,11 @@ public class PreviewSystem : MonoBehaviour
 
     private void ApplyFeedback(bool validity)
     {
-       Color color = validity ? Color.white : Color.red;
-       color.a = 0.5f;
+        Color color = validity ? Color.white : Color.red;
+        color.a = 0.5f;
 
-       _cellIndicatorRenderer.material.color = color;
-       _previewMaterialInstance.color = color;
+        _cellIndicatorRenderer.material.color = color;
+        _previewMaterialInstance.color = color;
     }
 
     private void PreparePreview(GameObject previewObject)

@@ -1,36 +1,14 @@
-﻿using System;
-using UnityEngine;
-using System.Collections.Generic;
-
-public class DefaultState: IPlacementState
+﻿public sealed class DefaultState : PlacementStateBase
 {
-    private PlacementSystem _context;
+    private PlacementSystemManager _context;
 
-    public PlacementStateType StateType { get; }
-
-    public DefaultState(PlacementSystem context, PlacementStateType stateType)
+    public DefaultState(PlacementSystemManager context)
     {
         _context = context;
-        StateType = stateType;
     }
 
-    public void OnEnter(int objectID = -1)
+    public override void OnEnter(int objectID = -1)
     {
         _context.HideVisual();
-    }
-
-    public void OnUpdate()
-    {
-
-    }
-
-    public void OnClick()
-    {
-
-    }
-
-    public void OnExit()
-    {
-
     }
 }

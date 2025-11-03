@@ -1,22 +1,39 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlacementSystem : MonoBehaviour
+public sealed class PlacementSystemManager : MonoBehaviour
 {
-    [SerializeField] private InputManager _inputManager;
-    [SerializeField] private PreviewSystem _previewSystem;
-    [SerializeField] private GameObject _gridVisualisation;
-    [SerializeField] private Grid _grid;
-    [SerializeField] private ObjectsDatabaseSO _database;
-    [SerializeField] private AudioSource _audioSourceSuccess;
+    [SerializeField]
+    private InputManager _inputManager;
 
-    // ÂÐÅÌÅÍÍÎ ÄËß ÏÐÎÂÅÐÊÈ ÐÀÁÎÒÛ SwitchToState ×ÅÐÅÇ ÔÀÁÐÈÊÓ
-    [SerializeField] private Button _building1Button;
-    [SerializeField] private Button _building2Button;
-    [SerializeField] private Button _building3Button;
-    [SerializeField] private Button _escapeButton;
+    [SerializeField]
+    private PreviewSystem _previewSystem;
+
+    [SerializeField]
+    private GameObject _gridVisualisation;
+
+    [SerializeField]
+    private Grid _grid;
+
+    [SerializeField]
+    private ObjectsDatabaseSO _database;
+
+    [SerializeField]
+    private AudioSource _audioSourceSuccess;
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ SwitchToState ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [SerializeField]
+    private Button _building1Button;
+
+    [SerializeField]
+    private Button _building2Button;
+
+    [SerializeField]
+    private Button _building3Button;
+
+    [SerializeField]
+    private Button _escapeButton;
 
     public InputManager InputManager => _inputManager;
     public PreviewSystem PreviewSystem => _previewSystem;
@@ -25,15 +42,16 @@ public class PlacementSystem : MonoBehaviour
     public AudioSource AudioSourceSuccess => _audioSourceSuccess;
 
     public GridData GridData { get; private set; }
-    public List<GameObject> PlacedGameObjects { get; private set; } = new();
+    public IList<GameObject> PlacedGameObjects { get; } = new List<GameObject>();
 
     private IPlacementStateFactory _stateFactory;
-    private IPlacementState _currentState;
+    private PlacementStateBase _currentState;
 
-    public void SwitchToState(PlacementStateType stateType, int objectID = -1)
+    public void SwitchToState<TState>(int objectID = -1)
+        where TState : PlacementStateBase
     {
         _currentState?.OnExit();
-        _currentState = _stateFactory.CreateState(stateType);
+        _currentState = _stateFactory.CreateState<TState>();
         _currentState.OnEnter(objectID);
     }
 
@@ -56,7 +74,7 @@ public class PlacementSystem : MonoBehaviour
         PlacedGameObjects.Add(newObject);
 
         GridData.AddObject(
-            gridPosition, 
+            gridPosition,
             _database.objectsData[selectedObjectIndex].Size,
             _database.objectsData[selectedObjectIndex].ID,
             PlacedGameObjects.Count - 1
@@ -67,10 +85,10 @@ public class PlacementSystem : MonoBehaviour
 
     private void Awake()
     {
-        _escapeButton.onClick.AddListener(() => SwitchToState(PlacementStateType.Default));
-        _building1Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 0));
-        _building2Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 1));
-        _building3Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 2));
+        _escapeButton.onClick.AddListener(() => SwitchToState<DefaultState>());
+        _building1Button.onClick.AddListener(() => SwitchToState<BuildState>(0));
+        _building2Button.onClick.AddListener(() => SwitchToState<BuildState>(1));
+        _building3Button.onClick.AddListener(() => SwitchToState<BuildState>(2));
     }
 
     private void Start()
@@ -82,7 +100,7 @@ public class PlacementSystem : MonoBehaviour
         _inputManager.OnClicked += OnClick;
         _inputManager.OnExit += OnExit;
 
-        SwitchToState(PlacementStateType.Default);
+        SwitchToState<DefaultState>();
     }
 
     private void Update()
