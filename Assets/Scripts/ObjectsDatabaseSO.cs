@@ -12,7 +12,7 @@ public class ObjectsDatabaseSO : ScriptableObject
 public class ObjectData
 {
     [field: SerializeField]
-    public string Name {get; private set; }
+    public string Name { get; private set; }
 
     [field: SerializeField]
     public int ID { get; private set; }

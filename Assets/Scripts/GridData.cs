@@ -5,11 +5,11 @@ public class GridData
 {
     private readonly Dictionary<Vector3Int, PlacementData> _placedObjects = new();
 
-    public void AddObject(Vector3Int gridPosition, Vector2Int objectSize, int ID, int objectIndex)
+    public void AddObject(Vector3Int gridPosition, Vector2Int objectSize, int objectIndex)
     {
         List<Vector3Int> positionsToOccupy = CalculatePositions(gridPosition, objectSize);
 
-        PlacementData data = new(positionsToOccupy, ID, objectIndex);
+        PlacementData data = new(positionsToOccupy, objectIndex);
 
         bool placementValidity = CanPlaceObject(gridPosition, objectSize);
 
@@ -57,16 +57,13 @@ public class GridData
 
 public class PlacementData
 {
-    public List<Vector3Int> occupiedPositions;
-
-    public int ID { get; private set; }
+    public IList<Vector3Int> occupiedPositions;
 
     public int PlacedObjectIndex { get; private set; }
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int ID, int placedObjectIndex)
+    public PlacementData(IList<Vector3Int> occupiedPositions, int placedObjectIndex)
     {
         this.occupiedPositions = occupiedPositions;
-        this.ID = ID;
         PlacedObjectIndex = placedObjectIndex;
     }
 }

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public sealed class PlacementSystemManager : MonoBehaviour
+public sealed class StateManager : MonoBehaviour
 {
     [SerializeField]
     private InputManager _inputManager;
@@ -22,19 +21,6 @@ public sealed class PlacementSystemManager : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSourceSuccess;
 
-    // �������� ��� �������� ������ SwitchToState ����� �������
-    [SerializeField]
-    private Button _building1Button;
-
-    [SerializeField]
-    private Button _building2Button;
-
-    [SerializeField]
-    private Button _building3Button;
-
-    [SerializeField]
-    private Button _escapeButton;
-
     public InputManager InputManager => _inputManager;
     public PreviewSystem PreviewSystem => _previewSystem;
     public Grid Grid => _grid;
@@ -45,14 +31,15 @@ public sealed class PlacementSystemManager : MonoBehaviour
     public IList<GameObject> PlacedGameObjects { get; } = new List<GameObject>();
 
     private IPlacementStateFactory _stateFactory;
-    private PlacementStateBase _currentState;
+    private IState _currentState;
 
-    public void SwitchToState<TState>(int objectID = -1)
-        where TState : PlacementStateBase
+    public void SwitchToState<TState, TContext>(TContext context)
+        where TState : StateBase<TContext>
+        where TContext : IStateContext
     {
         _currentState?.OnExit();
-        _currentState = _stateFactory.CreateState<TState>();
-        _currentState.OnEnter(objectID);
+        _currentState = _stateFactory.CreateState<TState, TContext>(context);
+        _currentState.OnEnter();
     }
 
     public void ShowVisual()
@@ -66,29 +53,16 @@ public sealed class PlacementSystemManager : MonoBehaviour
         _previewSystem.StopShowingPlacementPreview();
     }
 
-    public void PlaceStructure(Vector3Int gridPosition, int selectedObjectIndex)
+    public void PlaceStructure(Vector3Int gridPosition, IPlacable obj)
     {
-        GameObject newObject = Instantiate(_database.objectsData[selectedObjectIndex].Prefab);
+        GameObject newObject = Instantiate(obj.Prefab);
         newObject.transform.position = _grid.CellToWorld(gridPosition);
 
         PlacedGameObjects.Add(newObject);
 
-        GridData.AddObject(
-            gridPosition,
-            _database.objectsData[selectedObjectIndex].Size,
-            _database.objectsData[selectedObjectIndex].ID,
-            PlacedGameObjects.Count - 1
-        );
+        GridData.AddObject(gridPosition, obj.Size, PlacedGameObjects.Count - 1);
 
         AudioSourceSuccess.Play();
-    }
-
-    private void Awake()
-    {
-        _escapeButton.onClick.AddListener(() => SwitchToState<DefaultState>());
-        _building1Button.onClick.AddListener(() => SwitchToState<BuildState>(0));
-        _building2Button.onClick.AddListener(() => SwitchToState<BuildState>(1));
-        _building3Button.onClick.AddListener(() => SwitchToState<BuildState>(2));
     }
 
     private void Start()
@@ -100,7 +74,7 @@ public sealed class PlacementSystemManager : MonoBehaviour
         _inputManager.OnClicked += OnClick;
         _inputManager.OnExit += OnExit;
 
-        SwitchToState<DefaultState>();
+        SwitchToState<IdleState, IdleStateContext>(new IdleStateContext());
     }
 
     private void Update()
