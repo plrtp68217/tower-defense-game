@@ -31,9 +31,6 @@ public class PlacementSystem : MonoBehaviour
         _currentState?.OnExit();
         _currentState = _placementState;
         _currentState.OnEnter(ID);
-
-        _inputManager.OnClicked += OnClick;
-        _inputManager.OnExit += OnExit;
     }
 
     public void SwitchToDefaultState()
@@ -41,9 +38,6 @@ public class PlacementSystem : MonoBehaviour
         _currentState?.OnExit();
         _currentState = _defaultState;
         _currentState.OnEnter();
-
-        _inputManager.OnClicked += OnClick;
-        _inputManager.OnExit += OnExit;
     }
 
     public void ShowVisual()
@@ -82,6 +76,9 @@ public class PlacementSystem : MonoBehaviour
 
         _defaultState = new DefaultState(this);
         _placementState = new PlacementState(this);
+
+        _inputManager.OnClicked += OnClick;
+        _inputManager.OnExit += OnExit;
 
         SwitchToDefaultState();
     }
