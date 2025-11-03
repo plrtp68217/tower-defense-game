@@ -6,7 +6,6 @@ public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private PreviewSystem _previewSystem;
-    [SerializeField] private GameObject _mouseIndicator;
     [SerializeField] private GameObject _gridVisualisation;
     [SerializeField] private Grid _grid;
     [SerializeField] private ObjectsDatabaseSO _database;
@@ -14,7 +13,6 @@ public class PlacementSystem : MonoBehaviour
 
     public InputManager InputManager => _inputManager;
     public PreviewSystem PreviewSystem => _previewSystem;
-    public GameObject MouseIndicator => _mouseIndicator;
     public Grid Grid => _grid;
     public ObjectsDatabaseSO Database => _database;
     public AudioSource AudioSourceSuccess => _audioSourceSuccess;
@@ -42,13 +40,11 @@ public class PlacementSystem : MonoBehaviour
 
     public void ShowVisual()
     {
-        _mouseIndicator.SetActive(true);
         _gridVisualisation.SetActive(true);
     }
 
     public void HideVisual()
     {
-        _mouseIndicator.SetActive(false);
         _gridVisualisation.SetActive(false);
         _previewSystem.StopShowingPlacementPreview();
     }

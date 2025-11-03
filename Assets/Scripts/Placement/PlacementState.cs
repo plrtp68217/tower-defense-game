@@ -34,8 +34,6 @@ public class PlacementState : IPlacementState
         bool placementValidity = CheckPlacementValidity(gridPosition, _selectedObjectIndex);
 
         _context.PreviewSystem.UpdatePosition(_context.Grid.CellToWorld(gridPosition), placementValidity);
-
-        _context.MouseIndicator.transform.position = mousePosition;
     }
 
     public void OnExit()
