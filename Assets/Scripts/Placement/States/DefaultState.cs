@@ -6,9 +6,12 @@ public class DefaultState: IPlacementState
 {
     private PlacementSystem _context;
 
-    public DefaultState(PlacementSystem context)
+    public PlacementStateType StateType { get; }
+
+    public DefaultState(PlacementSystem context, PlacementStateType stateType)
     {
         _context = context;
+        StateType = stateType;
     }
 
     public void OnEnter(int objectID = -1)

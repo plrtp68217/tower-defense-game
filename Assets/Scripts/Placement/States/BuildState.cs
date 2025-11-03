@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacementState : IPlacementState
+public class BuildState : IPlacementState
 {
-    private PlacementSystem _context;
+    private readonly PlacementSystem _context;
     private int _selectedObjectIndex;
 
-    public PlacementState(PlacementSystem context)
+    public PlacementStateType StateType { get; }
+
+    public BuildState(PlacementSystem context, PlacementStateType stateType)
     {
         _context = context;
+        StateType = stateType;
     }
 
     public void OnEnter(int objectID = -1)

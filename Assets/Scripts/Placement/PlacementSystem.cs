@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private ObjectsDatabaseSO _database;
     [SerializeField] private AudioSource _audioSourceSuccess;
 
+    // ÂÐÅÌÅÍÍÎ ÄËß ÏÐÎÂÅÐÊÈ ÐÀÁÎÒÛ SwitchToState ×ÅÐÅÇ ÔÀÁÐÈÊÓ
+    [SerializeField] private Button _building1Button;
+    [SerializeField] private Button _building2Button;
+    [SerializeField] private Button _building3Button;
+    [SerializeField] private Button _escapeButton;
+
     public InputManager InputManager => _inputManager;
     public PreviewSystem PreviewSystem => _previewSystem;
     public Grid Grid => _grid;
@@ -20,22 +27,14 @@ public class PlacementSystem : MonoBehaviour
     public GridData GridData { get; private set; }
     public List<GameObject> PlacedGameObjects { get; private set; } = new();
 
+    private IPlacementStateFactory _stateFactory;
     private IPlacementState _currentState;
-    private DefaultState _defaultState;
-    private PlacementState _placementState;
 
-    public void SwitchToPlacementState(int ID)
+    public void SwitchToState(PlacementStateType stateType, int objectID = -1)
     {
         _currentState?.OnExit();
-        _currentState = _placementState;
-        _currentState.OnEnter(ID);
-    }
-
-    public void SwitchToDefaultState()
-    {
-        _currentState?.OnExit();
-        _currentState = _defaultState;
-        _currentState.OnEnter();
+        _currentState = _stateFactory.CreateState(stateType);
+        _currentState.OnEnter(objectID);
     }
 
     public void ShowVisual()
@@ -66,17 +65,24 @@ public class PlacementSystem : MonoBehaviour
         AudioSourceSuccess.Play();
     }
 
+    private void Awake()
+    {
+        _escapeButton.onClick.AddListener(() => SwitchToState(PlacementStateType.Default));
+        _building1Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 0));
+        _building2Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 1));
+        _building3Button.onClick.AddListener(() => SwitchToState(PlacementStateType.Build, 2));
+    }
+
     private void Start()
     {
         GridData = new();
 
-        _defaultState = new DefaultState(this);
-        _placementState = new PlacementState(this);
+        _stateFactory = new PlacementStateFactory(this);
 
         _inputManager.OnClicked += OnClick;
         _inputManager.OnExit += OnExit;
 
-        SwitchToDefaultState();
+        SwitchToState(PlacementStateType.Default);
     }
 
     private void Update()
