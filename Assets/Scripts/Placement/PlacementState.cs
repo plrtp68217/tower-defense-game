@@ -37,6 +37,7 @@ public class PlacementState : IPlacementState
 
         _context.MouseIndicator.transform.position = mousePosition;
     }
+
     public void OnExit()
     {
 
@@ -58,7 +59,6 @@ public class PlacementState : IPlacementState
         {
             _context.PlaceStructure(gridPosition, _selectedObjectIndex);
         }
-
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
@@ -68,4 +68,3 @@ public class PlacementState : IPlacementState
         return placementValidity;
     }
 }
-
