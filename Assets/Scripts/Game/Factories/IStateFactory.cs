@@ -1,4 +1,4 @@
-﻿public interface IPlacementStateFactory
+﻿public interface IStateFactory
 {
     TState CreateState<TState, TContext>(TContext context)
         where TState : StateBase<TContext>

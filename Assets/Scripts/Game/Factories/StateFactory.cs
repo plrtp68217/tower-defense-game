@@ -1,10 +1,10 @@
 ﻿using System;
 
-public sealed class PlacementStateFactory : IPlacementStateFactory
+public sealed class StateFactory : IStateFactory
 {
     private readonly StateManager _stateManager;
 
-    public PlacementStateFactory(StateManager stateManager)
+    public StateFactory(StateManager stateManager)
     {
         _stateManager = stateManager;
     }

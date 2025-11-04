@@ -30,7 +30,7 @@ public sealed class StateManager : MonoBehaviour
     public GridData GridData { get; private set; }
     public IList<GameObject> PlacedGameObjects { get; } = new List<GameObject>();
 
-    private IPlacementStateFactory _stateFactory;
+    private IStateFactory _stateFactory;
     private IState _currentState;
 
     public void SwitchToState<TState, TContext>(TContext context)
@@ -69,7 +69,7 @@ public sealed class StateManager : MonoBehaviour
     {
         GridData = new();
 
-        _stateFactory = new PlacementStateFactory(this);
+        _stateFactory = new StateFactory(this);
 
         _inputManager.OnClicked += OnClick;
         _inputManager.OnExit += OnExit;
