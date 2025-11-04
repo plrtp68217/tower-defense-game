@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public sealed class StateManager : MonoBehaviour
@@ -30,6 +32,8 @@ public sealed class StateManager : MonoBehaviour
     public GridData GridData { get; private set; }
     public IList<GameObject> PlacedGameObjects { get; } = new List<GameObject>();
 
+    public IObjectFactory ObjectFactory { get; private set; }
+
     private IStateFactory _stateFactory;
     private IState _currentState;
 
@@ -53,21 +57,11 @@ public sealed class StateManager : MonoBehaviour
         _previewSystem.StopShowingPlacementPreview();
     }
 
-    public void PlaceStructure(Vector3Int gridPosition, IPlacable obj)
-    {
-        GameObject newObject = Instantiate(obj.Prefab);
-        newObject.transform.position = _grid.CellToWorld(gridPosition);
-
-        PlacedGameObjects.Add(newObject);
-
-        GridData.AddObject(gridPosition, obj.Size, PlacedGameObjects.Count - 1);
-
-        AudioSourceSuccess.Play();
-    }
-
     private void Start()
     {
         GridData = new();
+
+        ObjectFactory = gameObject.AddComponent<ObjectFactory>();
 
         _stateFactory = new StateFactory(this);
 

@@ -46,8 +46,20 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
         if (placementValidity)
         {
-            _stateManager.PlaceStructure(gridPosition, Context.Object);
+            PlaceStructure(gridPosition, Context.Object);
         }
+    }
+
+    public void PlaceStructure(Vector3Int gridPosition, IPlacable obj)
+    {
+        GameObject newObject = _stateManager.ObjectFactory.Instantiate(obj.Prefab);
+        newObject.transform.position = _stateManager.Grid.CellToWorld(gridPosition);
+
+        _stateManager.PlacedGameObjects.Add(newObject);
+
+        _stateManager.GridData.AddObject(gridPosition, obj.Size, _stateManager.PlacedGameObjects.Count - 1);
+
+        _stateManager.AudioSourceSuccess.Play();
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition)
