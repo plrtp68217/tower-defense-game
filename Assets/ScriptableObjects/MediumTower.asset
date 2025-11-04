@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ef5863da583064a968024a9b2d2a5b, type: 3}
   m_Name: MediumTower
   m_EditorClassIdentifier: Assembly-CSharp::SimplePlacableObject
-  _prefab: {fileID: 5719600330003103342, guid: 45cbc397eab1c2849a12a04154522835, type: 3}
-  _size: {x: 1, y: 1}
+  _prefab: {fileID: 4004138160298953165, guid: d15100f97a58ad34687b73fb1df44a53, type: 3}
+  _size: {x: 2, y: 1}
