@@ -6,7 +6,12 @@ public sealed class BuildState : StateBase<BuildStateContext>
         : base(stateManager) { }
 
     public override void OnEnter()
-    {
+    {   
+        if (Context.Object == null)
+        {
+            return;
+        }
+
         _stateManager.ShowVisual();
 
         var placableObj = Context.Object;
@@ -19,8 +24,18 @@ public sealed class BuildState : StateBase<BuildStateContext>
         );
     }
 
+    public override void OnExit()
+    {
+        _stateManager.PreviewSystem.StopShowingPlacementPreview();
+    }
+
     public override void OnUpdate()
     {
+        if (Context.Object == null)
+        {
+            return;
+        }
+
         Vector3 mousePosition = _stateManager.InputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = _stateManager.Grid.WorldToCell(mousePosition);
 
@@ -64,6 +79,11 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
     private bool CheckPlacementValidity(Vector3Int gridPosition)
     {
+        if (Context.Object == null)
+        {
+            return false;
+        }
+
         Vector2Int objectSize = Context.Object.Size;
         bool placementValidity = _stateManager.GridData.CanPlaceObject(gridPosition, objectSize);
         return placementValidity;

@@ -33,6 +33,8 @@ public sealed class StateManager : MonoBehaviour
     private IStateFactory _stateFactory;
     private IState _currentState;
 
+    public System.Action<System.Type> OnStateChanged;
+
     public void SwitchToState<TState, TContext>(TContext context)
         where TState : StateBase<TContext>
         where TContext : IStateContext
@@ -40,6 +42,8 @@ public sealed class StateManager : MonoBehaviour
         _currentState?.OnExit();
         _currentState = _stateFactory.CreateState<TState, TContext>(context);
         _currentState.OnEnter();
+
+        OnStateChanged?.Invoke(typeof(TState));
     }
 
     public void ShowVisual()

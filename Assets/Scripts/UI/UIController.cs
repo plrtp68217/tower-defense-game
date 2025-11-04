@@ -1,66 +1,46 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.CullingGroup;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField]
-    private StateManager _placementManager;
+    [SerializeField] private StateManager _stateManager;
 
-    [Header("UI Buttons")]
-    [SerializeField]
-    private Button _escapeButton;
+    [Header("UI States")]
+    [SerializeField] private IdleUI _idleUI;
+    [SerializeField] private BuildUI _buildUI;
+    [SerializeField] private FightUI _fightUI;
 
-    [SerializeField]
-    private Button _building1Button;
-
-    [SerializeField]
-    private Button _building2Button;
-
-    [SerializeField]
-    private Button _building3Button;
-
-    [Header("Buildings")]
-    [SerializeField]
-    private SimplePlacableObject _building1SO;
-
-    [SerializeField]
-    private SimplePlacableObject _building2SO;
-
-    [SerializeField]
-    private SimplePlacableObject _building3SO;
+    private UIState _currentUI;
 
     private void Awake()
     {
-        Debug.Log("UIController Awake");
+        _idleUI.Hide();
+        _buildUI.Hide();
+        _fightUI.Hide();
 
-        _escapeButton.onClick.AddListener(OnEscapeButtonClicked);
-        _building1Button.onClick.AddListener(() => OnBuildingSelected(_building1SO));
-        _building2Button.onClick.AddListener(() => OnBuildingSelected(_building2SO));
-        _building3Button.onClick.AddListener(() => OnBuildingSelected(_building3SO));
+        _stateManager.OnStateChanged += OnStateChanged;
     }
 
-    private void OnBuildingSelected(IPlacable so)
+    private void OnStateChanged(Type stateType)
     {
-        if (_placementManager == null)
+        if (_currentUI != null)
         {
-            Debug.LogWarning("Missing _placementManager in UIController");
-            return;
-        }
-        if (so == null)
-        {
-            Debug.LogWarning("Missing so in UIController");
-            return;
+            _currentUI.Hide();
         }
 
-        Debug.Log($"OnBuildingSelected: {so}");
-        _placementManager.SwitchToState<BuildState, BuildStateContext>(
-            new BuildStateContext() { Object = so }
-        );
-    }
+        _currentUI = stateType switch
+        {
+            Type t when t == typeof(IdleState) => _idleUI,
+            Type t when t == typeof(BuildState) => _buildUI,
+            Type t when t == typeof(FightState) => _fightUI,
+            _ => null
+        };
 
-    private void OnEscapeButtonClicked()
-    {
-        Debug.Log("Escape button clicked");
-        _placementManager?.SwitchToState<IdleState, IdleStateContext>(new IdleStateContext());
+        if (_currentUI != null)
+        {
+            _currentUI.Show();
+        }
     }
 }
