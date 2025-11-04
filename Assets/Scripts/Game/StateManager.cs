@@ -18,15 +18,11 @@ public sealed class StateManager : MonoBehaviour
     private Grid _grid;
 
     [SerializeField]
-    private ObjectsDatabaseSO _database;
-
-    [SerializeField]
     private AudioSource _audioSourceSuccess;
 
     public InputManager InputManager => _inputManager;
     public PreviewSystem PreviewSystem => _previewSystem;
     public Grid Grid => _grid;
-    public ObjectsDatabaseSO Database => _database;
     public AudioSource AudioSourceSuccess => _audioSourceSuccess;
 
     public GridData GridData { get; private set; }
