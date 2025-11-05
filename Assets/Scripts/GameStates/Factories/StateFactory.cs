@@ -40,6 +40,9 @@ public sealed class StateFactory : IStateFactory
                 Type t when t == typeof(BuildState)
                     => new BuildState(_stateManager) as StateBase<TContext>,
 
+                Type t when t == typeof(AttackTargetingState)
+                    => new AttackTargetingState(_stateManager) as StateBase<TContext>,
+
                 Type t when t == typeof(FightState)
                 => new FightState(_stateManager) as StateBase<TContext>,
 

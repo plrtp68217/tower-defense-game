@@ -20,7 +20,7 @@ public class FightUI : UIState
     private void OnIdleButtonClicked()
     {
         Debug.Log("FightUI: OnIdleButtonClicked");
-        _stateManager.SwitchToState<IdleState, IdleStateContext>(new IdleStateContext());
+        _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 
     private void OnBuildButtonClicked()

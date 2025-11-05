@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+public class InputService : MonoBehaviour
 {
     [SerializeField]
     private Camera _sceneCamera;

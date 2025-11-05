@@ -45,29 +45,19 @@ public class BuildUI : UIState
     private void OnFightButtonClicked()
     {
         Debug.Log("BuildUI: OnFightButtonClicked");
-        _stateManager.SwitchToState<FightState, FightStateContext>(new FightStateContext());
+        _stateManager.SwitchToState<FightState, FightStateContext>();
     }
 
     private void OnIdleButtonClicked()
     {
         Debug.Log("BuildUI: OnIdleButtonClicked");
-        _stateManager.SwitchToState<IdleState, IdleStateContext>(new IdleStateContext());
+        _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 
     private void OnBuildingSelected(IPlacable so)
     {
-        if (_stateManager == null)
-        {
-            Debug.LogWarning("Missing _stateManager in BuildUI");
-            return;
-        }
-        if (so == null)
-        {
-            Debug.LogWarning("Missing so in BuildUI");
-            return;
-        }
+        _stateManager.SwitchToState<IdleState, IdleStateContext>();
 
-        Debug.Log($"OnBuildingSelected: {so}");
         _stateManager.SwitchToState<BuildState, BuildStateContext>(
             new BuildStateContext() { Object = so }
         );

@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.CullingGroup;
 
 public class UIController : MonoBehaviour
 {
