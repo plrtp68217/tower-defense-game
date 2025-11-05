@@ -5,6 +5,7 @@ public sealed class StateManager : MonoBehaviour
     [field: SerializeField] public InputService InputManager { get; private set; }
     [field: SerializeField] public BuildingService BuildingService { get; private set; }
     [field: SerializeField] public PreviewService PreviewService { get; private set; }
+    [field: SerializeField] public EnemySpawner EnemySpawner { get; private set; }
 
     [field: SerializeField] public UIState IdleUI { get; private set; }
     [field: SerializeField] public UIState BuildUI { get; private set; }
@@ -23,6 +24,7 @@ public sealed class StateManager : MonoBehaviour
         _currentState = _stateFactory.CreateState<TState, TContext>(context ?? new TContext().Default<TContext>());
         _currentState.OnEnter();
     }
+
 
     private void Start()
     {

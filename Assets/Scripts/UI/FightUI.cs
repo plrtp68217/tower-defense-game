@@ -26,6 +26,6 @@ public class FightUI : UIState
     private void OnBuildButtonClicked()
     {
         Debug.Log("FightUI: OnBuildButtonClicked");
-        _stateManager.SwitchToState<BuildState, BuildStateContext>(new BuildStateContext());
+        _stateManager.SwitchToState<BuildState, BuildStateContext>();
     }
 }
