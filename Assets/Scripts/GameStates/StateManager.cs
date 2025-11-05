@@ -6,12 +6,14 @@ public sealed class StateManager : MonoBehaviour
     [field: SerializeField] public BuildingService BuildingService { get; private set; }
     [field: SerializeField] public PreviewService PreviewService { get; private set; }
 
+    [field: SerializeField] public UIState IdleUI { get; private set; }
+    [field: SerializeField] public UIState BuildUI { get; private set; }
+    [field: SerializeField] public UIState FightUI { get; private set; }
+
     [field: SerializeField] public AudioSource AudioSourceSuccess { get; private set; }
 
     private IStateFactory _stateFactory;
     private IState _currentState;
-
-    public System.Action<System.Type> OnStateChanged;
 
     public void SwitchToState<TState, TContext>(TContext context = default)
         where TState : StateBase<TContext>
@@ -20,8 +22,6 @@ public sealed class StateManager : MonoBehaviour
         _currentState?.OnExit();
         _currentState = _stateFactory.CreateState<TState, TContext>(context ?? new TContext().Default<TContext>());
         _currentState.OnEnter();
-
-        OnStateChanged?.Invoke(typeof(TState));
     }
 
     private void Start()

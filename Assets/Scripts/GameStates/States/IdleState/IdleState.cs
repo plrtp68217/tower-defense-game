@@ -2,8 +2,21 @@
 
 public sealed class IdleState : StateBase<IdleStateContext>
 {
-    public IdleState(StateManager stateManager)
-        : base(stateManager) { }
+    private readonly UIState _ui;
 
-    public override void OnEnter() => Debug.Print("ENTER IDLE STATE");
+    public IdleState(StateManager stateManager)
+        : base(stateManager)
+    {
+        _ui = stateManager.IdleUI;
+    }
+
+    public override void OnEnter()
+    {
+        _ui.Show();
+    }
+
+    public override void OnExit()
+    {
+        _ui.Hide();
+    }
 }

@@ -9,6 +9,8 @@ public sealed class BuildState : StateBase<BuildStateContext>
     private readonly PreviewService _previewService;
     private readonly InputService _inputManager;
 
+    private readonly UIState _ui;
+
     public BuildState(
         StateManager stateManager
     ) : base(stateManager)
@@ -16,15 +18,17 @@ public sealed class BuildState : StateBase<BuildStateContext>
         _buildingService = stateManager.BuildingService;
         _previewService = stateManager.PreviewService;
         _inputManager = stateManager.InputManager;
+
+        _ui = stateManager.BuildUI;
     }
 
     public override void OnEnter()
     {
-        if (Context.Object == null) return;
-
-        _previewService.ShowPreview(Context.Object);
+        _previewService.ShowPreview(Context?.Object);
 
         _buildingService.ShowGrid();
+
+        _ui.Show();
     }
 
     public override void OnExit()
@@ -32,6 +36,8 @@ public sealed class BuildState : StateBase<BuildStateContext>
         _previewService.HidePreview();
 
         _buildingService.HideGrid();
+
+        _ui.Hide();
     }
 
     public override void OnUpdate()
