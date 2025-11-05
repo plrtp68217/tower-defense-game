@@ -22,4 +22,14 @@ public class BuildingService : MonoBehaviour
         return true;
     }
     public bool RemoveObject(IPlacable obj) => _map.RemoveObject(obj);
+
+    public void ShowGrid()
+    {
+        _map.ShowGridVisualisation();
+    }
+
+    public void HideGrid()
+    {
+        _map.HideGridVisualisation();
+    }
 }

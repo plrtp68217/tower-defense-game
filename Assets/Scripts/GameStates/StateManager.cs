@@ -7,7 +7,6 @@ public sealed class StateManager : MonoBehaviour
     [field: SerializeField] public PreviewService PreviewService { get; private set; }
 
     [field: SerializeField] public AudioSource AudioSourceSuccess { get; private set; }
-    [field: SerializeField] public GameObject GridVisualisation { get; private set; }
 
     private IStateFactory _stateFactory;
     private IState _currentState;
@@ -23,16 +22,6 @@ public sealed class StateManager : MonoBehaviour
         _currentState.OnEnter();
 
         OnStateChanged?.Invoke(typeof(TState));
-    }
-
-    public void ShowVisual()
-    {
-        GridVisualisation.SetActive(true);
-    }
-
-    public void HideVisual()
-    {
-        GridVisualisation.SetActive(false);
     }
 
     private void Start()

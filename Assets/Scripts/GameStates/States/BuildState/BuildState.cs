@@ -23,11 +23,15 @@ public sealed class BuildState : StateBase<BuildStateContext>
         if (Context.Object == null) return;
 
         _previewService.ShowPreview(Context.Object);
+
+        _buildingService.ShowGrid();
     }
 
     public override void OnExit()
     {
         _previewService.HidePreview();
+
+        _buildingService.HideGrid();
     }
 
     public override void OnUpdate()

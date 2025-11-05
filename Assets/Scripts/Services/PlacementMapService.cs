@@ -14,6 +14,8 @@ public sealed class PlacementMapService : MonoBehaviour
 {
     [SerializeField] private Grid _grid;
 
+    [SerializeField] public GameObject _gridVisualisation;
+
     private Dictionary<Vector3Int, IPlacable> _placedObjects;
 
     private void Awake()
@@ -145,5 +147,21 @@ public sealed class PlacementMapService : MonoBehaviour
     public IEnumerable<Vector3Int> GetAllOccupiedPositions()
     {
         return _placedObjects.Keys;
+    }
+
+    /// <summary>
+    /// Отображает сетку.
+    /// </summary>
+    public void ShowGridVisualisation()
+    {
+        _gridVisualisation.SetActive(true);
+    }
+
+    /// <summary>
+    /// Скрывает сетку.
+    /// </summary>
+    public void HideGridVisualisation()
+    {
+        _gridVisualisation.SetActive(false);
     }
 }
