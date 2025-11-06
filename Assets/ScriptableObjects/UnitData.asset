@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UnitData
   m_EditorClassIdentifier: Assembly-CSharp::EntityData
   EntityName: Moroz
-  Prefab: {fileID: 1892541326545748387, guid: 851c1927efafcec4c8b1690b91b1e7ce, type: 3}
+  Prefab: {fileID: 5168384136683305344, guid: 2aed2684fa7c1c44bbc32e2930a44a01, type: 3}
   Size: {x: 1, y: 1}
   MaxHealth: 100
   Damage: 1
