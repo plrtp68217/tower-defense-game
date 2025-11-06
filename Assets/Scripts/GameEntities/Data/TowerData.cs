@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Data/Enemy Data", order = 1)]
-public class EntityData : ScriptableObject
+
+
+[CreateAssetMenu(fileName = "TowerData", menuName = "Data/Tower Data", order = 1)]
+public class TowerData : ScriptableObject
 {
     [Header("Основные параметры")]
     public string EntityName;
@@ -14,5 +16,5 @@ public class EntityData : ScriptableObject
     public float Damage = 1f;
 
     [Header("Дополнительные параметры")]
-    public Team EntityTeam = Team.Enemy;
+    public Team EntityTeam = Team.Blue;
 }

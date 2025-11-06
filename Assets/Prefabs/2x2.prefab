@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6073024058041591575}
   m_Layer: 0
-  m_Name: BarrackType1
+  m_Name: 2x2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

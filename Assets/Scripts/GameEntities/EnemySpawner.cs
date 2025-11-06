@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private EntityData EnemyData;          
+    [SerializeField] private UnitData EnemyData;          
     [SerializeField] private Vector3Int SpawnPosition;       
     [SerializeField] private int EnemiesToSpawn = 2;     
     [SerializeField] private float SpawnInterval = 1f;   
@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < EnemiesToSpawn; i++)
         {
-            SimpleEnemy enemy = _factory.CreateEnemy(EnemyData, SpawnPosition);
+            SimpleUnit enemy = _factory.CreateEnemy(EnemyData, SpawnPosition);
             //Сдвигаем
             SpawnPosition.Set(SpawnPosition.x + 1, SpawnPosition.y, SpawnPosition.z + 1);
 

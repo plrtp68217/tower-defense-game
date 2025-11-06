@@ -1,6 +1,6 @@
 ﻿public struct DamageSource
 {
-    public IEnemy Attacker { get; set; }
+    public IUnit Attacker { get; set; }
     public bool IsCritical { get; set; }
     public float BaseDamage { get; set; }
     public float DamageMultiplier { get; set; }

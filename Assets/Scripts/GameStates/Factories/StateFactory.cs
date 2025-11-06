@@ -10,19 +10,18 @@ public sealed class StateFactory : IStateFactory
     }
 
     // INFO: Универсальный метод но с боксингом
-    // public TState CreateState<TState, TContext>(TContext context)
-    //     where TState : StateBase<TContext>
-    //     where TContext : IContext
-
-    // {
-    //     /*
-    //      *  WARNING (@perf): Происходит боксинг объекта
-    //      *  TCurrentState -> object -> TState (CreateInstance -> return object)
-    //      */
-    //     var state = (TState)Activator.CreateInstance(typeof(TState), _stateManager)!;
-    //     state.SetContext(context);
-    //     return state;
-    // }
+    //public TState CreateState<TState, TContext>(TContext context)
+    //    where TState : StateBase<TContext>
+    //    where TContext : IStateContext
+    //{
+    //    /*
+    //     *  WARNING (@perf): Происходит боксинг объекта
+    //     *  TCurrentState -> object -> TState (CreateInstance -> return object)
+    //     */
+    //    var state = (TState)Activator.CreateInstance(typeof(TState), _stateManager)!;
+    //    state.SetContext(context);
+    //    return state;
+    //}
 
     /*
      *  INFO: Тут нет боксинга, но приходится расширят
@@ -40,8 +39,8 @@ public sealed class StateFactory : IStateFactory
                 Type t when t == typeof(BuildState)
                     => new BuildState(_stateManager) as StateBase<TContext>,
 
-                //Type t when t == typeof(AttackTargetingState)
-                //    => new AttackTargetingState(_stateManager) as StateBase<TContext>,
+                Type t when t == typeof(AttackTargetingState)
+                    => new AttackTargetingState(_stateManager) as StateBase<TContext>,
 
                 Type t when t == typeof(FightState)
                 => new FightState(_stateManager) as StateBase<TContext>,

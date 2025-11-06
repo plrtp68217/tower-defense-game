@@ -20,12 +20,12 @@ public class IdleUI : UIState
     private void OnFightButtonClicked()
     {
         Debug.Log("IdleUI: OnFightButtonClicked");
-        _stateManager.SwitchToState<FightState, FightStateContext>(new FightStateContext());
+        _stateManager.SwitchToState<FightState, FightStateContext>();
     }
 
     private void OnBuildButtonClicked()
     {
         Debug.Log("IdleUI: OnBuildButtonClicked");
-        _stateManager.SwitchToState<BuildState, BuildStateContext>(new BuildStateContext());
+        _stateManager.SwitchToState<BuildState, BuildStateContext>();
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc5db8dcb5408b489df6593b10d08d7, type: 3}
+  m_Name: LargeTowerData
+  m_EditorClassIdentifier: Assembly-CSharp::TowerData
+  EntityName: Tower
+  Prefab: {fileID: 3654601381189554347, guid: 0d031d1e81bce8847b7054c6c222d428, type: 3}
+  Size: {x: 2, y: 2}
+  MaxHealth: 100
+  Damage: 1
+  EntityTeam: 0

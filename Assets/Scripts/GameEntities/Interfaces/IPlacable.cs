@@ -4,13 +4,7 @@ using UnityEngine;
 
 public interface IPlacable
 {
-    Vector3Int Position { get; set; }
-    Vector2Int Size { get; }
+    Vector3 WordPosition { get; set; }
     GameObject Prefab { get; }
-
-
-    /// <summary>
-    /// Автовычисляемая коллекция занятых позиций (должна рассчитывается на лету в зависимости от позиции и размера).
-    /// </summary>
-    IEnumerable<Vector3Int> OccupiedPositions { get; }
+    Vector2Int Size { get; }
 }

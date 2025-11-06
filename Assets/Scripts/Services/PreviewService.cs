@@ -11,24 +11,23 @@ public class PreviewService : MonoBehaviour
 
     private GameObject _previewObject;
     private readonly IList<Renderer> _previewObjectRenderers = new List<Renderer>();
-    private readonly IList<GameObject> _occupiedCellsVisuals = new List<GameObject>();
-    private IPlacable _currentPlacable;
+
+    private TowerEntityBase _currentPlacable;
 
     /// <summary>
     /// Отображает предварительный просмотр объекта.
     /// </summary>
-    /// <param name="placable">Объект для предпросмотра.</param>
-    public void ShowPreview(IPlacable placable)
+    /// <param name="tower">Объект для предпросмотра.</param>
+    public void ShowPreview(TowerEntityBase tower)
     {
-        if (placable == null)
+        if (tower == null)
             return;
 
-        _currentPlacable = placable;
-
+        _currentPlacable = tower;
         // Создаём preview-объект
-        if (_previewObject == null)
+        if (_previewObject == null && tower.Prefab != null)
         {
-            _previewObject = Instantiate(placable.Prefab);
+            _previewObject = Instantiate(tower.Prefab);
             _previewObjectRenderers.AddRange(_previewObject.GetComponentsInChildren<Renderer>());
 
             foreach (var renderer in _previewObjectRenderers)
@@ -51,7 +50,7 @@ public class PreviewService : MonoBehaviour
         if (_previewObject == null || _currentPlacable == null)
             return;
 
-        var worldPos = _buildingService.CellToWorld(_currentPlacable.Position);
+        var worldPos = _buildingService.CellToWorld(_currentPlacable.GridPosition);
         _previewObject.transform.position = worldPos;
 
         var canPlace = _buildingService.CanPlace(_currentPlacable);
@@ -73,10 +72,6 @@ public class PreviewService : MonoBehaviour
             _previewObject = null;
         }
 
-        foreach (var cellVisual in _occupiedCellsVisuals)
-            Destroy(cellVisual);
-
-        _occupiedCellsVisuals.Clear();
         _previewObjectRenderers.Clear();
 
         _currentPlacable = null;

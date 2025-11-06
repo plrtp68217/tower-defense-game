@@ -7,21 +7,35 @@ public class BuildingService : MonoBehaviour
     public Vector3Int WorldToCell(Vector3 worldPosition) => _map.WorldToCell(worldPosition);
     public Vector3 CellToWorld(Vector3Int cellPosition) => _map.CellToWorld(cellPosition);
 
-    public bool CanPlace(IPlacable obj) => _map.CanPlaceObject(obj);
+    public bool CanPlace(TowerEntityBase pos) => _map.CanPlaceObject(pos);
 
-    public bool TryPlace(IPlacable obj)
+    public bool TryPlace(TowerEntityBase obj)
     {
         if (obj == null) return false;
 
-        if (!_map.TryPlaceObject(obj))
+        if (_map.CanPlaceObject(obj) == false)
+        {
             return false;
+        }
+
+        Vector3 objectWordPosition = _map.CellToWorld(obj.GridPosition);
 
         GameObject newObject = Instantiate(obj.Prefab);
-        newObject.transform.position = _map.CellToWorld(obj.Position);
+        obj.WordPosition = objectWordPosition;
+        newObject.transform.position = objectWordPosition;
+
+        _map.PlaceObject(obj);
 
         return true;
     }
-    public bool RemoveObject(IPlacable obj) => _map.RemoveObject(obj);
+
+    public T GetObjectAtPosition<T>(Vector3Int position)
+        where T : TowerEntityBase
+    {
+        return _map.GetObjectAtPosition(position) as T;
+    }
+
+    public bool RemoveObject(TowerEntityBase obj) => _map.RemoveObject(obj);
 
     public void ShowGrid()
     {

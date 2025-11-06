@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63adac66941089a43a3594df5586559c, type: 3}
-  m_Name: EnemyData
-  m_EditorClassIdentifier: Assembly-CSharp::EntityData
-  EntityName: Moroz
-  Prefab: {fileID: 5719600330003103342, guid: b2b15fa5517268b4488b1c05c2720b35, type: 3}
-  Size: {x: 1, y: 1}
+  m_Script: {fileID: 11500000, guid: adc5db8dcb5408b489df6593b10d08d7, type: 3}
+  m_Name: MediumTowerData
+  m_EditorClassIdentifier: Assembly-CSharp::TowerData
+  EntityName: Tower
+  Prefab: {fileID: 4004138160298953165, guid: d15100f97a58ad34687b73fb1df44a53, type: 3}
+  Size: {x: 2, y: 1}
   MaxHealth: 100
   Damage: 1
   EntityTeam: 0

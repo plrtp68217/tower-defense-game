@@ -22,13 +22,13 @@ public class BuildUI : UIState
 
     [Header("Buildings")]
     [SerializeField]
-    private SimplePlacableObject _building1SO;
+    private TowerData _building1SO;
 
     [SerializeField]
-    private SimplePlacableObject _building2SO;
+    private TowerData _building2SO;
 
     [SerializeField]
-    private SimplePlacableObject _building3SO;
+    private TowerData _building3SO;
 
     private void Awake()
     {
@@ -50,16 +50,13 @@ public class BuildUI : UIState
 
     private void OnIdleButtonClicked()
     {
-        Debug.Log("BuildUI: OnIdleButtonClicked");
         _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 
-    private void OnBuildingSelected(IPlacable so)
+    private void OnBuildingSelected(TowerData so)
     {
         _stateManager.SwitchToState<IdleState, IdleStateContext>();
-
-        _stateManager.SwitchToState<BuildState, BuildStateContext>(
-            new BuildStateContext() { Object = so }
-        );
+        Debug.Log($"UI:{so.Prefab}");
+        _stateManager.SwitchToState<BuildState, BuildStateContext>(new() { Data = so });
     }
 }

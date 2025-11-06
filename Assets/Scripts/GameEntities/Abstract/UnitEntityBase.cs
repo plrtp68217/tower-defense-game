@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 
-public abstract class DamagableEntity : MonoBehaviour, IDamagable
+public abstract class UnitEntityBase :  IDamagable, IPlacable
 {
+    public Vector2Int Size { get; set; }
+    [field: SerializeField] public GameObject Prefab { get; set; }
     public float Health { get; set; }
     public bool IsAlive => Health > 0;
+
+    public Vector3 WordPosition { get; set; }
 
     public virtual void TakeDamage(float damage, DamageSource source)
     {
@@ -24,7 +28,7 @@ public abstract class DamagableEntity : MonoBehaviour, IDamagable
     protected virtual void Die()
     {
         // Общая анимация смерти
-        Destroy(gameObject);
+        //UnityEngine.Object.Destroy(Prefab);
     }
 
     protected virtual void OnDamageTaken(float damage, DamageSource source)

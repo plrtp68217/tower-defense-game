@@ -3,7 +3,7 @@ using UnityEngine;
 public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext>
 {
     private LineRenderer _lineRenderer;
-    private GameObject _selectedTower;
+    private IPlacable _selectedTower;
     private Vector3 _targetPosition;
 
     public AttackTargetingState(StateManager stateManager)
@@ -19,11 +19,11 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
         _lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         _lineRenderer.material.color = Color.red;
         _lineRenderer.positionCount = 2;
-
+         
         // Получаем выбранную башню из контекста
         _selectedTower = Context.SelectedTower;
 
-        Debug.Log("Entered AttackTargetingState. Selected tower: " + _selectedTower.name);
+        Debug.Log("Entered AttackTargetingState. Selected tower: " + _selectedTower);
     }
 
     public override void OnUpdate()
@@ -33,7 +33,7 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
         _targetPosition = mousePosition;
 
         // Обновляем позицию конечной точки линии
-        _lineRenderer.SetPosition(0, _selectedTower.transform.position);
+        _lineRenderer.SetPosition(0, _selectedTower.WordPosition);
         _lineRenderer.SetPosition(1, _targetPosition);
 
         // Визуализируем линию только если курсор вне UI
@@ -85,10 +85,10 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
         return null;
     }
 
-    private void ExecuteAttack(GameObject tower, IPlacable target)
+    private void ExecuteAttack(IPlacable tower, IPlacable target)
     {
         // Логика атаки башни по врагу
-        Debug.Log($"Tower {tower.name} attacks enemy {target}!");
+        Debug.Log($"Tower {tower} attacks enemy {target}!");
 
 
         // Пример: запускаем анимацию атаки башни

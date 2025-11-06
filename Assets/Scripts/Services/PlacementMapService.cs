@@ -16,11 +16,11 @@ public sealed class PlacementMapService : MonoBehaviour
 
     [SerializeField] public GameObject _gridVisualisation;
 
-    private Dictionary<Vector3Int, IPlacable> _placedObjects;
+    private Dictionary<Vector3Int, IGridable> _placedObjects;
 
     private void Awake()
     {
-        _placedObjects = new Dictionary<Vector3Int, IPlacable>();
+        _placedObjects = new Dictionary<Vector3Int, IGridable>();
     }
 
     /// <summary>
@@ -48,23 +48,16 @@ public sealed class PlacementMapService : MonoBehaviour
     /// </summary>
     /// <param name="obj">Объект для размещения</param>
     /// <returns>true, если размещение успешно; false при коллизии или ошибке</returns>
-    public bool TryPlaceObject(IPlacable obj)
+    public void PlaceObject(IGridable obj)
     {
         if (obj == null)
-            return false;
-
-        // Проверяем, что все позиции, которые займёт объект, свободны
-        var canPlace = obj.OccupiedPositions.All(pos => !_placedObjects.ContainsKey(pos));
-        if (!canPlace)
-            return false;
+            return;
 
         // Размещаем объект: добавляем все его позиции в словарь
-        foreach (var pos in obj.OccupiedPositions)
+        foreach (var pos in obj.OccupiedGridPositions)
         {
             _placedObjects[pos] = obj;
         }
-
-        return true;
     }
 
     /// <summary>
@@ -72,16 +65,12 @@ public sealed class PlacementMapService : MonoBehaviour
     /// </summary>
     /// <param name="obj">Объект с заданными Position и Size</param>
     /// <returns>true, если место свободно; false при коллизии или null-объекте</returns>
-    public bool CanPlaceObject(IPlacable obj)
+    public bool CanPlaceObject(IGridable obj)
     {
-        //if (obj.OccupiedPositions is null) throw new NullReferenceException(nameof(obj.OccupiedPositions));
-        //if (obj is null) throw new NullReferenceException(nameof(obj));
-        //if (_placedObjects is null) throw new NullReferenceException(nameof(_placedObjects));
-
         if (obj == null)
             return false;
 
-        var positions = obj.OccupiedPositions;
+        var positions = obj.OccupiedGridPositions;
 
         return positions.All(pos => !_placedObjects.ContainsKey(pos));
     }
@@ -98,12 +87,12 @@ public sealed class PlacementMapService : MonoBehaviour
     /// <exception cref="InvalidOperationException">
     /// Выбрасывается, если объект удалён частично (несогласованное состояние)
     /// </exception>
-    public bool RemoveObject(IPlacable obj)
+    public bool RemoveObject(IGridable obj)
     {
-        if (obj == null || !obj.OccupiedPositions.Any())
+        if (obj == null || !obj.OccupiedGridPositions.Any())
             return false;
 
-        bool allRemoved = obj.OccupiedPositions.All(pos => _placedObjects.Remove(pos));
+        bool allRemoved = obj.OccupiedGridPositions.All(pos => _placedObjects.Remove(pos));
 
         if (!allRemoved)
             throw new InvalidOperationException(
@@ -134,8 +123,8 @@ public sealed class PlacementMapService : MonoBehaviour
     /// Получает объект, занимающий указанную позицию (если есть).
     /// </summary>
     /// <param name="position">Координаты сетки</param>
-    /// <returns>Объект типа IPlacable или null, если позиция свободна</returns>
-    public IPlacable GetObjectAtPosition(Vector3Int position)
+    /// <returns>Объект типа IGridable или null, если позиция свободна</returns>
+    public IGridable GetObjectAtPosition(Vector3Int position)
     {
         return _placedObjects.TryGetValue(position, out var obj) ? obj : null;
     }
