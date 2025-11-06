@@ -50,6 +50,7 @@ public class BuildUI : UIState
 
     private void OnIdleButtonClicked()
     {
+        Debug.Log("BuildUI: OnIdleButtonClicked");
         _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 

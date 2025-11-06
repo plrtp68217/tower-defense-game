@@ -47,8 +47,6 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
     public override void OnExit()
     {
-        if (Context.Data == null) return;
-        
         _previewService.HidePreview();
 
         _buildingService.HideGrid();
