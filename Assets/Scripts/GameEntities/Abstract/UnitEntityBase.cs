@@ -3,11 +3,12 @@
 public abstract class UnitEntityBase :  IDamagable, IPlacable
 {
     public Vector2Int Size { get; set; }
-    [field: SerializeField] public GameObject Prefab { get; set; }
+    public GameObject Instance { get; set; }
+    public GameObject Prefab { get; set; }
     public float Health { get; set; }
     public bool IsAlive => Health > 0;
 
-    public Vector3 WordPosition { get; set; }
+    public Vector3 WorldPosition { get; set; }
 
     public virtual void TakeDamage(float damage, DamageSource source)
     {

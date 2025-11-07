@@ -6,10 +6,9 @@
 public sealed class BuildState : StateBase<BuildStateContext>
 {
     private readonly BuildingService _buildingService;
-    private readonly PreviewService _previewService;
     private readonly InputService _inputManager;
 
-    private TowerEntityBase _currentTower;
+    private Tower _currentTower;
 
     private readonly UIState _ui;
 
@@ -17,9 +16,8 @@ public sealed class BuildState : StateBase<BuildStateContext>
         StateManager stateManager
     ) : base(stateManager)
     {
-        _buildingService = stateManager.BuildingService;
-        _previewService = stateManager.PreviewService;
-        _inputManager = stateManager.InputManager;
+        _buildingService    = stateManager.BuildingService;
+        _inputManager       = stateManager.InputManager;
 
 
         _ui = stateManager.BuildUI;
@@ -29,29 +27,24 @@ public sealed class BuildState : StateBase<BuildStateContext>
     {
         _ui.Show();
         if (Context.Data == null) return;
-       
-        _currentTower = new Tower()
-        {
-            Prefab = Context.Data.Prefab,
-            Name = Context.Data.EntityName,
-            Size = Context.Data.Size,
-            Health = Context.Data.MaxHealth,
-            Team = Context.Data.EntityTeam
-        };
 
-        _previewService.ShowPreview(_currentTower);
+        _currentTower = Tower.FromData(Context.Data);
 
+        Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
+        Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
+        _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
+        _currentTower.GridPosition  = gridPos;
+
+        _currentTower.SetPreviewMaterial();
         _buildingService.ShowGrid();
 
     }
 
     public override void OnExit()
     {
-        if (Context.Data == null) return;
-        
-        _previewService.HidePreview();
 
         _buildingService.HideGrid();
+        _currentTower?.Dispose();
 
         _ui.Hide();
     }
@@ -59,33 +52,33 @@ public sealed class BuildState : StateBase<BuildStateContext>
     public override void OnUpdate()
     {
         if (Context.Data == null) return;
+        Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
+        Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
+        _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
+        _currentTower.GridPosition  = gridPos;
 
-        // Получаем позицию мыши на карте
-        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
-
-        // Преобразуем в координаты сетки
-        Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
-
-        // Обновляем позицию объекта в контексте
-        _currentTower.GridPosition = gridPos;
-
-        // Обновляем превью: позиция и цвет (в зависимости от возможности размещения)
-        _previewService.UpdatePreviewPosition();
+        bool isPlaceFree = _buildingService.CanPlace(_currentTower);
+        _currentTower.SetPreviewValidity(isPlaceFree);
     }
 
     public override void OnClick()
     {
         if (_inputManager.IsPointerOverUI()) return;
-        if (Context.Data == null) return;
 
-        // Получаем позицию мыши и преобразуем в координаты сетки
-        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
-        Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
-        // Пытаемся разместить объект
-        if (_buildingService.TryPlace(_currentTower))
+        bool towerIsPlaced = _buildingService.TryPlace(_currentTower);
+
+        if (towerIsPlaced)
         {
+            _currentTower.RestoreMaterial();
+            _currentTower = Tower.FromData(Context.Data);
+
+            Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
+            Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
+            _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
             _currentTower.GridPosition = gridPos;
-            
+
+            _currentTower.SetPreviewMaterial();
+
             _stateManager.AudioSourceSuccess.Play();
         }
     }

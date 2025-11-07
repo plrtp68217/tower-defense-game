@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 
 /// <summary>
 /// Отвечает за:
@@ -16,11 +18,11 @@ public sealed class PlacementMapService : MonoBehaviour
 
     [SerializeField] public GameObject _gridVisualisation;
 
-    private Dictionary<Vector3Int, IGridable> _placedObjects;
+    private List<IGridable> _placedObjects;
 
     private void Awake()
     {
-        _placedObjects = new Dictionary<Vector3Int, IGridable>();
+        _placedObjects = new List<IGridable>();
     }
 
     /// <summary>
@@ -53,11 +55,7 @@ public sealed class PlacementMapService : MonoBehaviour
         if (obj == null)
             return;
 
-        // Размещаем объект: добавляем все его позиции в словарь
-        foreach (var pos in obj.OccupiedGridPositions)
-        {
-            _placedObjects[pos] = obj;
-        }
+        _placedObjects.Add(obj);
     }
 
     /// <summary>
@@ -70,10 +68,12 @@ public sealed class PlacementMapService : MonoBehaviour
         if (obj == null)
             return false;
 
-        var positions = obj.OccupiedGridPositions;
+        var objPositions = obj.OccupiedGridPositions;
+        var occupiedSet = new HashSet<Vector3Int>(_placedObjects.SelectMany(o => o.OccupiedGridPositions));
 
-        return positions.All(pos => !_placedObjects.ContainsKey(pos));
+        return !objPositions.Any(pos => occupiedSet.Contains(pos));
     }
+
 
 
     /// <summary>
@@ -92,13 +92,15 @@ public sealed class PlacementMapService : MonoBehaviour
         if (obj == null || !obj.OccupiedGridPositions.Any())
             return false;
 
-        bool allRemoved = obj.OccupiedGridPositions.All(pos => _placedObjects.Remove(pos));
+        //bool allRemoved = obj.OccupiedGridPositions.All(pos => _placedObjects.Remove(pos));
 
-        if (!allRemoved)
+        bool removed = _placedObjects.Remove(obj);
+
+        if (!removed)
             throw new InvalidOperationException(
                 "Ошибка: объект удалён частично. Несогласованное состояние сетки!");
 
-        return allRemoved;
+        return removed;
     }
 
     /// <summary>
@@ -114,10 +116,10 @@ public sealed class PlacementMapService : MonoBehaviour
     /// </summary>
     /// <param name="position">Координаты сетки</param>
     /// <returns>true, если позиция занята; false — свободна</returns>
-    public bool IsPositionOccupied(Vector3Int position)
-    {
-        return _placedObjects.ContainsKey(position);
-    }
+    //public bool IsPositionOccupied(Vector3Int position)
+    //{
+    //    return _placedObjects.ContainsKey(position);
+    //}
 
     /// <summary>
     /// Получает объект, занимающий указанную позицию (если есть).
@@ -126,7 +128,15 @@ public sealed class PlacementMapService : MonoBehaviour
     /// <returns>Объект типа IGridable или null, если позиция свободна</returns>
     public IGridable GetObjectAtPosition(Vector3Int position)
     {
-        return _placedObjects.TryGetValue(position, out var obj) ? obj : null;
+        foreach (IGridable obj in _placedObjects)
+        {
+            foreach (Vector3Int objPosition in obj.OccupiedGridPositions)
+            {
+                if (objPosition == position) return obj;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -135,7 +145,7 @@ public sealed class PlacementMapService : MonoBehaviour
     /// <returns>Коллекция Vector3Int с координатами занятых ячеек</returns>
     public IEnumerable<Vector3Int> GetAllOccupiedPositions()
     {
-        return _placedObjects.Keys;
+        return _placedObjects.SelectMany(x => x.OccupiedGridPositions);
     }
 
     /// <summary>

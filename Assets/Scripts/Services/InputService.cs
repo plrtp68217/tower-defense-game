@@ -21,11 +21,6 @@ public class InputService : MonoBehaviour
         {
             OnClicked?.Invoke();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            OnExit?.Invoke();
-        }
     }
 
     public bool IsPointerOverUI()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PreviewService : MonoBehaviour
 {
     [SerializeField] private BuildingService _buildingService;
-    [SerializeField] private Color _validPreviewColor = new(0f, 1f, 0f, 0.3f);
+    [SerializeField] private Color _validPreviewColor   = new(0f, 1f, 0f, 0.3f);
     [SerializeField] private Color _invalidPreviewColor = new(1f, 0f, 0f, 0.3f);
     [SerializeField] private Material _previewMaterial;
 
@@ -23,7 +23,10 @@ public class PreviewService : MonoBehaviour
         if (tower == null)
             return;
 
-        _currentPlacable = tower;
+        if (tower != _currentPlacable) HidePreview();
+        else return;
+
+            _currentPlacable = tower;
         // Создаём preview-объект
         if (_previewObject == null && tower.Prefab != null)
         {
@@ -64,7 +67,7 @@ public class PreviewService : MonoBehaviour
     /// <summary>
     /// Скрывает предварительный просмотр.
     /// </summary>
-    public void HidePreview()
+    private void HidePreview()
     {
         if (_previewObject != null)
         {

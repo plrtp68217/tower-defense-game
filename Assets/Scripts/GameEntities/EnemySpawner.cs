@@ -12,8 +12,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        _factory = new EnemyFactory();
-        StartCoroutine(SpawnEnemies());
+        //_factory = new EnemyFactory();
+        //StartCoroutine(SpawnEnemies());
     }
 
     private IEnumerator SpawnEnemies()

@@ -15,7 +15,7 @@ public class EnemyFactory
             Health = data.MaxHealth,
             Size = data.Size,
             Team = data.EntityTeam,
-            WordPosition = position
+            WorldPosition = position
         };
 
         return unit;

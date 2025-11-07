@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IPlacable
 {
-    Vector3 WordPosition { get; set; }
+    Vector3 WorldPosition { get; set; }
     GameObject Prefab { get; }
     Vector2Int Size { get; }
 }

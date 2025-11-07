@@ -29,6 +29,8 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
     public override void OnClick()
     {
+        if (_inputManager.IsPointerOverUI()) return;
+
         // Получаем позицию мыши на карте
         Vector3 mousePos = _inputManager.GetSelectedMapPosition();
 
@@ -43,6 +45,10 @@ public sealed class IdleState : StateBase<IdleStateContext>
             _stateManager.SwitchToState<AttackTargetingState, AttackTargetingStateContext>(
                 new AttackTargetingStateContext() { SelectedTower = selectedObject }
             );
+        }
+        else
+        {
+            Debug.Log("object not found");
         }
     }
 

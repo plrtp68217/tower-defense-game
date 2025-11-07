@@ -8,6 +8,7 @@ public class TowerData : ScriptableObject
     [Header("Основные параметры")]
     public string EntityName;
     public GameObject Prefab;
+    public Material PreviewMaterial;
     public Vector2Int Size;
 
 
