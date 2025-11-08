@@ -51,12 +51,14 @@ public sealed class BuildState : StateBase<BuildStateContext>
     public override void OnUpdate()
     {
         if (Context.Data == null) return;
+
         Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
         Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
         _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
         _currentTower.GridPosition  = gridPos;
 
         bool isPlaceFree = _buildingService.CanPlace(_currentTower);
+        _currentTower.SetPreviewMaterial();
         _currentTower.SetPreviewValidity(isPlaceFree);
     }
 

@@ -39,6 +39,9 @@ public class Tower : TowerEntityBase, IPreviewable
     }
     public void SetPreviewMaterial()
     {
+
+        if (_originalMaterials.Count != 0) return;
+
         _previewObjectRenderers.Clear();
         _originalMaterials.Clear();
 
