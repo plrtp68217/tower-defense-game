@@ -42,7 +42,6 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
     public override void OnExit()
     {
-
         _buildingService.HideGrid();
         _currentTower?.Dispose();
 
@@ -76,9 +75,7 @@ public sealed class BuildState : StateBase<BuildStateContext>
             Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
             _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
             _currentTower.GridPosition = gridPos;
-
-            _currentTower.SetPreviewMaterial();
-
+            
             _stateManager.AudioSourceSuccess.Play();
         }
     }
