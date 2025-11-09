@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
-public abstract class TowerEntityBase : IDamagable, IPlacable, IGridable, IDisposable
+public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IGridable, IDisposable
 {
-    public Vector2Int Size { get; set; }
-    public GameObject Instance { get; set; }
-    public GameObject Prefab { get; set; }
-    public float Health { get; set; }
-    public bool IsAlive => Health > 0;
+    [SerializeField] private TowerData _towerData;
 
-    private Vector3 _wordPosition;
+    private Vector3 _worldPosition;
+
+    public Vector2Int Size { get => _towerData.Size; }
+
+    public TowerData TowerData { get => _towerData; }
+
     public Vector3 WorldPosition 
     {
-        get => _wordPosition;
+        get => _worldPosition;
         set 
         {
-            Instance.transform.position = _wordPosition;
-            _wordPosition = value;
+            transform.position = value;
+            _worldPosition = value;
         }
     }
 
@@ -39,40 +41,33 @@ public abstract class TowerEntityBase : IDamagable, IPlacable, IGridable, IDispo
             int height = Mathf.Max(0, Size.y);
 
             for (int x = 0; x < width; x++)
+            {
                 for (int y = 0; y < height; y++)
+                {
                     yield return GridPosition + new Vector3Int(x, 0, y);
+                }
+            }
         }
     }
+
     public virtual void TakeDamage(float damage, DamageSource source)
     {
-        if (!IsAlive) return;
-
-        Health -= damage;
-
-        if (Health <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            OnDamageTaken(damage, source);
-        }
+        throw new NotImplementedException();
     }
 
 
     protected virtual void Die()
     {
-        // Общая анимация смерти
-        //UnityEngine.Object.Destroy(Prefab);
+        throw new NotImplementedException();
     }
 
     protected virtual void OnDamageTaken(float damage, DamageSource source)
     {
-        // Можно переопределить в наследниках
+        throw new NotImplementedException();
     }
 
     public void Dispose()
     {
-        UnityEngine.Object.Destroy(Instance);
+        Destroy(gameObject);
     }
 }

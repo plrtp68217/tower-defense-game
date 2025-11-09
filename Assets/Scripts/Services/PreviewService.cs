@@ -20,28 +20,28 @@ public class PreviewService : MonoBehaviour
     /// <param name="tower">Объект для предпросмотра.</param>
     public void ShowPreview(TowerEntityBase tower)
     {
-        if (tower == null)
-            return;
+        //if (tower == null)
+        //    return;
 
-        if (tower != _currentPlacable) HidePreview();
-        else return;
+        //if (tower != _currentPlacable) HidePreview();
+        //else return;
 
-            _currentPlacable = tower;
-        // Создаём preview-объект
-        if (_previewObject == null && tower.Prefab != null)
-        {
-            _previewObject = Instantiate(tower.Prefab);
-            _previewObjectRenderers.AddRange(_previewObject.GetComponentsInChildren<Renderer>());
+        //    _currentPlacable = tower;
+        //// Создаём preview-объект
+        //if (_previewObject == null && tower.Prefab != null)
+        //{
+        //    _previewObject = Instantiate(tower.Prefab);
+        //    _previewObjectRenderers.AddRange(_previewObject.GetComponentsInChildren<Renderer>());
 
-            foreach (var renderer in _previewObjectRenderers)
-            {
-                renderer.material = _previewMaterial;
-                renderer.material.color = _validPreviewColor;
-            }
-        }
+        //    foreach (var renderer in _previewObjectRenderers)
+        //    {
+        //        renderer.material = _previewMaterial;
+        //        renderer.material.color = _validPreviewColor;
+        //    }
+        //}
 
-        // Обновляем позицию
-        UpdatePreviewPosition();
+        //// Обновляем позицию
+        //UpdatePreviewPosition();
 
     }
 
@@ -50,17 +50,17 @@ public class PreviewService : MonoBehaviour
     /// </summary>
     public void UpdatePreviewPosition()
     {
-        if (_previewObject == null || _currentPlacable == null)
-            return;
+        //if (_previewObject == null || _currentPlacable == null)
+        //    return;
 
-        var worldPos = _buildingService.CellToWorld(_currentPlacable.GridPosition);
-        _previewObject.transform.position = worldPos;
+        //var worldPos = _buildingService.CellToWorld(_currentPlacable.GridPosition);
+        //_previewObject.transform.position = worldPos;
 
-        var canPlace = _buildingService.CanPlace(_currentPlacable);
-        var color = canPlace ? _validPreviewColor : _invalidPreviewColor;
+        //var canPlace = _buildingService.CanPlace(_currentPlacable);
+        //var color = canPlace ? _validPreviewColor : _invalidPreviewColor;
 
-        foreach (var renderer in _previewObjectRenderers)
-            renderer.material.color = color;
+        //foreach (var renderer in _previewObjectRenderers)
+        //    renderer.material.color = color;
 
     }
 
@@ -69,19 +69,19 @@ public class PreviewService : MonoBehaviour
     /// </summary>
     private void HidePreview()
     {
-        if (_previewObject != null)
-        {
-            Destroy(_previewObject);
-            _previewObject = null;
-        }
+        //if (_previewObject != null)
+        //{
+        //    Destroy(_previewObject);
+        //    _previewObject = null;
+        //}
 
-        _previewObjectRenderers.Clear();
+        //_previewObjectRenderers.Clear();
 
-        _currentPlacable = null;
+        //_currentPlacable = null;
     }
 
     private void OnDestroy()
     {
-        HidePreview();
+        //HidePreview();
     }
 }

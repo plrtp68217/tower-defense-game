@@ -12,8 +12,7 @@ public class InputService : MonoBehaviour
     [SerializeField]
     private LayerMask _placementLayerMask;
 
-    public event Action OnClicked,
-        OnExit;
+    public event Action OnClicked;
 
     private void Update()
     {

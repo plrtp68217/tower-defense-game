@@ -20,23 +20,27 @@ public class BuildUI : UIState
     [SerializeField]
     private Button _fightButton;
 
-    [Header("Buildings")]
-    [SerializeField]
-    private TowerData _building1SO;
+    //[Header("Buildings")]
+    //[SerializeField]
+    //private TowerData _building1SO;
 
-    [SerializeField]
-    private TowerData _building2SO;
+    //[SerializeField]
+    //private TowerData _building2SO;
 
-    [SerializeField]
-    private TowerData _building3SO;
+    //[SerializeField]
+    //private TowerData _building3SO;
+
+    [SerializeField] private GameObject _smallTowerPrefab;
+    [SerializeField] private GameObject _mediumTowerPrefab;
+    [SerializeField] private GameObject _largeTowerPrefab;
 
     private void Awake()
     {
         Debug.Log("BuildUI Awake");
 
-        _building1Button.onClick.AddListener(() => OnBuildingSelected(_building1SO));
-        _building2Button.onClick.AddListener(() => OnBuildingSelected(_building2SO));
-        _building3Button.onClick.AddListener(() => OnBuildingSelected(_building3SO));
+        _building1Button.onClick.AddListener(() => OnBuildingSelected(_smallTowerPrefab));
+        _building2Button.onClick.AddListener(() => OnBuildingSelected(_mediumTowerPrefab));
+        _building3Button.onClick.AddListener(() => OnBuildingSelected(_largeTowerPrefab));
 
         _idleButton.onClick.AddListener(OnIdleButtonClicked);
         _fightButton.onClick.AddListener(OnFightButtonClicked);
@@ -54,10 +58,9 @@ public class BuildUI : UIState
         _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 
-    private void OnBuildingSelected(TowerData so)
+    private void OnBuildingSelected(GameObject so)
     {
         _stateManager.SwitchToState<IdleState, IdleStateContext>();
-        Debug.Log($"UI:{so.Prefab}");
-        _stateManager.SwitchToState<BuildState, BuildStateContext>(new() { Data = so });
+        _stateManager.SwitchToState<BuildState, BuildStateContext>(new() { Prefab = so });
     }
 }

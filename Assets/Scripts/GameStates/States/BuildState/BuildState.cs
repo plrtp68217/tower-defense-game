@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Состояние строительства: отображает превью объекта и обрабатывает его размещение.
@@ -26,9 +27,11 @@ public sealed class BuildState : StateBase<BuildStateContext>
     public override void OnEnter()
     {
         _ui.Show();
-        if (Context.Data == null) return;
 
-        _currentTower = Tower.FromData(Context.Data);
+        if (Context.Prefab == null) return;
+
+        GameObject towerObject = Object.Instantiate(Context.Prefab);
+        _currentTower = towerObject.GetComponent<Tower>();
 
         Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
         Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
@@ -37,7 +40,6 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
         _currentTower.SetPreviewMaterial();
         _buildingService.ShowGrid();
-
     }
 
     public override void OnExit()
@@ -50,7 +52,7 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
     public override void OnUpdate()
     {
-        if (Context.Data == null) return;
+        if (Context.Prefab == null) return;
 
         Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
         Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
@@ -71,7 +73,9 @@ public sealed class BuildState : StateBase<BuildStateContext>
         if (towerIsPlaced)
         {
             _currentTower.RestoreMaterial();
-            _currentTower = Tower.FromData(Context.Data);
+
+            GameObject towerObject = Object.Instantiate(Context.Prefab);
+            _currentTower = towerObject.GetComponent<Tower>();
 
             Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
             Vector3Int gridPos = _buildingService.WorldToCell(mousePos);

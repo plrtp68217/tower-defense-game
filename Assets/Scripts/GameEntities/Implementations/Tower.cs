@@ -3,29 +3,10 @@ using UnityEngine;
 
 public class Tower : TowerEntityBase, IPreviewable
 {
-    [field: SerializeField] public TowerData Data { get; set; }
-
-    public Team Team { get; set; }
-    public string Name { get; set; }
-
-    private Tower() {}
-    public static Tower FromData(TowerData td) => new() 
-    {
-        Instance            = Object.Instantiate(td.Prefab),
-        Data                = td,
-        Prefab              = td.Prefab,
-        Name                = td.EntityName,
-        Size                = td.Size,
-        Health              = td.MaxHealth,
-        Team                = td.EntityTeam,
-
-        _previewMaterial    = td.PreviewMaterial,
-    };
-
     private readonly List<Renderer> _previewObjectRenderers             = new();
     private readonly Dictionary<Renderer, Material> _originalMaterials  = new();
+    private readonly Material _previewMaterial;
 
-    private Material _previewMaterial;
     private Color _validPreviewColor    = Color.white;
     private Color _inValidPreviewColor  = Color.red;
 
@@ -45,7 +26,7 @@ public class Tower : TowerEntityBase, IPreviewable
         _previewObjectRenderers.Clear();
         _originalMaterials.Clear();
 
-        _previewObjectRenderers.AddRange(Instance.GetComponentsInChildren<Renderer>());
+        _previewObjectRenderers.AddRange(gameObject.GetComponentsInChildren<Renderer>());
 
         foreach (var renderer in _previewObjectRenderers)
         {

@@ -4,7 +4,7 @@ public sealed class StateManager : MonoBehaviour
 {
     [field: SerializeField] public InputService InputManager { get; private set; }
     [field: SerializeField] public BuildingService BuildingService { get; private set; }
-    [field: SerializeField] public PreviewService PreviewService { get; private set; }
+    [field: SerializeField] public ConnectionService ConnectionService { get; private set; }
     [field: SerializeField] public EnemySpawner EnemySpawner { get; private set; }
 
     [field: SerializeField] public UIState IdleUI { get; private set; }
@@ -31,7 +31,6 @@ public sealed class StateManager : MonoBehaviour
         _stateFactory = new StateFactory(this);
 
         InputManager.OnClicked += OnClick;
-        InputManager.OnExit += OnExit;
 
         SwitchToState<IdleState, IdleStateContext>();
     }

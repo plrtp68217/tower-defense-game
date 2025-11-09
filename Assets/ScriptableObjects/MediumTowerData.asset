@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc5db8dcb5408b489df6593b10d08d7, type: 3}
   m_Name: MediumTowerData
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
-  EntityName: Tower
-  Prefab: {fileID: 4004138160298953165, guid: d15100f97a58ad34687b73fb1df44a53, type: 3}
+  EntityName: Medium Tower
   PreviewMaterial: {fileID: 2100000, guid: e1b04da02713f6f44967b98c66b9ea0e, type: 2}
   Size: {x: 2, y: 1}
   MaxHealth: 100
