@@ -60,7 +60,7 @@ public sealed class BuildState : StateBase<BuildStateContext>
         _currentTower.GridPosition  = gridPos;
 
         bool isPlaceFree = _buildingService.CanPlace(_currentTower);
-        _currentTower.SetPreviewMaterial();
+        
         _currentTower.SetPreviewValidity(isPlaceFree);
     }
 
@@ -76,6 +76,7 @@ public sealed class BuildState : StateBase<BuildStateContext>
 
             GameObject towerObject = Object.Instantiate(Context.Prefab);
             _currentTower = towerObject.GetComponent<Tower>();
+            _currentTower.SetPreviewMaterial();
 
             Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
             Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
