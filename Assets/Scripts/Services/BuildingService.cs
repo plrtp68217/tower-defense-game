@@ -17,9 +17,7 @@ public class BuildingService : MonoBehaviour
         {
             return false;
         }
-        //Vector3 objectWordPosition = _map.CellToWorld(obj.GridPosition);
 
-        //obj.WorldPosition = objectWordPosition;
         _map.PlaceObject(obj);
 
         return true;
