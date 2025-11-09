@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   EntityName: Tower
   Prefab: {fileID: 3654601381189554347, guid: 0d031d1e81bce8847b7054c6c222d428, type: 3}
+  PreviewMaterial: {fileID: 2100000, guid: e1b04da02713f6f44967b98c66b9ea0e, type: 2}
   Size: {x: 2, y: 2}
   MaxHealth: 100
   Damage: 1

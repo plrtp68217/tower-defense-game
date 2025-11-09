@@ -9,6 +9,7 @@ public abstract class TowerEntityBase : IDamagable, IPlacable, IGridable, IDispo
     public GameObject Prefab { get; set; }
     public float Health { get; set; }
     public bool IsAlive => Health > 0;
+
     private Vector3 _wordPosition;
     public Vector3 WorldPosition 
     {
@@ -19,7 +20,16 @@ public abstract class TowerEntityBase : IDamagable, IPlacable, IGridable, IDispo
             _wordPosition = value;
         }
     }
+
     public Vector3Int GridPosition { get; set; }
+
+    public Vector3 Center
+    {
+        get
+        {
+            return WorldPosition + new Vector3(Size.x / 2f, 0, Size.y / 2f);
+        }
+    }
 
     public IEnumerable<Vector3Int> OccupiedGridPositions
     {
