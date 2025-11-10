@@ -29,7 +29,7 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
     {
         get
         {
-            return WorldPosition + new Vector3(Size.x / 2f, 0, Size.y / 2f);
+            return WorldPosition + new Vector3(Size.x * 0.5f, 0, Size.y * 0.5f);
         }
     }
 

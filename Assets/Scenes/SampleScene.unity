@@ -1315,6 +1315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fcace4b20977a4ca126b6bb528a789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConnectionService
+  <DebugSpherePrefab>k__BackingField: {fileID: 2141785429162575873, guid: 5a9aad4cd116a974b9cef4b3d03d3166, type: 3}
 --- !u!4 &461506230
 Transform:
   m_ObjectHideFlags: 0
@@ -2745,7 +2746,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateManager
   <InputManager>k__BackingField: {fileID: 184030655}
   <BuildingService>k__BackingField: {fileID: 568839635}
-  <PreviewService>k__BackingField: {fileID: 0}
   <ConnectionService>k__BackingField: {fileID: 461506229}
   <EnemySpawner>k__BackingField: {fileID: 0}
   <IdleUI>k__BackingField: {fileID: 1657976892}
