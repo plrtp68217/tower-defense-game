@@ -25,9 +25,15 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
     public override void OnUpdate()
     {
-        // обращаемся к каждой башне, смотрим список toTower
-        // для каждого toTOwer делаем startCorutine
-        // для этого сделать метод направления противника в сторону башни toTower
+        _inputManager.GetSelectedMapPosition(out GameObject selectedObject);
+
+        if (selectedObject == null) return;
+        
+        if (selectedObject.TryGetComponent<LineRenderer>(out var line))
+        {
+            Debug.Log(line);
+            _connectionService.RemoveConnectionByLine(line);
+        }
     }
 
     public override void OnClick()

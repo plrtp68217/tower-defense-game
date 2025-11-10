@@ -1,52 +1,64 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public class Connection
+{
+    public Tower Tower { get; private set; }
+    public Tower TargetTower { get; private set; }
+    public LineRenderer Line { get; private set; }
+
+    public Connection(Tower tower, Tower targetTower, LineRenderer line)
+    {
+        Tower = tower;
+        TargetTower = targetTower;
+        Line = line;
+    }
+}
+
 public class ConnectionService : MonoBehaviour
 {
-    private Dictionary<Tower, List<Tower>> _connections = new();
+    private readonly IList<Connection> _connections = new List<Connection>();
 
     [field: SerializeField]
     public GameObject DebugSpherePrefab { get; set; }
     //private readonly bool _showDebugSpheres = true;
     private readonly List<GameObject> _debugSpheres = new();
 
-    public void AddConnection(Tower fromTower, Tower toTower)
+    public void AddConnection(Connection connection)
     {
-        if (_connections.ContainsKey(fromTower) == false)
+        if (_connections.Contains(connection) == false)
         {
-            _connections[fromTower] = new List<Tower>();
+            _connections.Add(connection);
+        }
+    }
+    
+    public Connection FindConnectionByLine(LineRenderer line)
+    {
+        foreach (Connection connection in _connections)
+        {
+            if (connection.Line == line)
+            {
+                return connection;
+            }
         }
 
-        _connections[fromTower].Add(toTower);
+        return null;
     }
 
-    public bool RemoveConnection(Tower fromTower, Tower toTower)
+    public void RemoveConnectionByLine(LineRenderer line)
     {
-        if (_connections.ContainsKey(fromTower))
-        {
-            List<Tower> connections = _connections[fromTower];
+        Connection connection = FindConnectionByLine(line);
 
-            bool removed = connections.Remove(toTower);
+        if (connection == null) return;
 
-            return removed;
-        }
+        Tower tower = connection.Tower;
+        Tower targetTower = connection.TargetTower;
 
-        return false;
-    }
+        tower.RemoveTarget(targetTower);
 
-    public List<Tower> GetTargetsForSource(Tower sourceTower)
-    {
-        if (_connections.ContainsKey(sourceTower) == false)
-        {
-            return new List<Tower>();
-        }
+        _connections.Remove(connection);
 
-        return _connections[sourceTower];
-    }
-
-    public Dictionary<Tower, List<Tower>> GetAllConnections()
-    {
-        return _connections;
+        Destroy(connection.Line.gameObject);
     }
 
     public bool IsConnectionBlocked(Tower fromTower, Tower toTower)
@@ -56,6 +68,7 @@ public class ConnectionService : MonoBehaviour
 
         const float sphereRadius = 0.3f;
         var pointsAlongLine = GetPointsAlongLine(fromPos, toPos);
+
         //if (_showDebugSpheres)
         //{
         //    DrawDebugSpheres(pointsAlongLine, sphereRadius);

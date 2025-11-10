@@ -9,6 +9,7 @@ public class Tower : TowerEntityBase, IPreviewable
     private readonly Dictionary<Renderer, Material> _originalMaterials = new();
 
     private readonly List<Tower> _targetTowers = new();
+
     private Color _validPreviewColor = Color.white;
     private Color _inValidPreviewColor = Color.red;
 

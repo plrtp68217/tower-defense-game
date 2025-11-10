@@ -19,17 +19,22 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnEnter()
     {
-        var lineObj = new GameObject("AttackLine");
+        //!!! сделать фабрику с генерацией линий
+        GameObject lineObj = new("Line")
+        {
+            layer = LayerMask.NameToLayer("Placement")
+        };
         _lineRenderer = lineObj.AddComponent<LineRenderer>();
         _lineRenderer.startWidth = 0.5f;
-        _lineRenderer.endWidth = 0.5f;
-        _lineRenderer.material = new Material(Shader.Find("Unlit/Color"))
+        _lineRenderer.endWidth   = 0.5f;
+        _lineRenderer.material   = new Material(Shader.Find("Unlit/Color"))
         {
             color = Color.brown
         };
         _lineRenderer.positionCount = 2;
-         
+
         _selectedTower = Context.SelectedTower;
+        //!!!
     }
 
     public override void OnUpdate()
@@ -65,7 +70,16 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
             _lineRenderer.SetPosition(1, _targetPosition);
 
-            _connectionService.AddConnection(_selectedTower, targetTower); // USLESS
+            //!!! ћетод в фабрике дл€ донастройки линии перед постановкой
+            MeshCollider collider = _lineRenderer.gameObject.AddComponent<MeshCollider>();
+            Mesh mesh = new();
+            _lineRenderer.BakeMesh(mesh, true);
+            collider.sharedMesh = mesh;
+            //!!!
+
+            Connection connection = new(_selectedTower, targetTower, _lineRenderer);
+
+            _connectionService.AddConnection(connection);
 
             _selectedTower.AddTarget(targetTower);
 
