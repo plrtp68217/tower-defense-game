@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Unit : UnitEntityBase
 {
-    private readonly float arrivalThreshold = 0.2f;
+    private readonly float arrivalThreshold = 1f;
     private Tower _target;
 
     public void SetTargetTower(Tower targetTower)
@@ -14,14 +14,13 @@ public class Unit : UnitEntityBase
     {
         if (_target != null)
         {
-            Vector3 targetPosition = _target.transform.position;
+            Vector3 targetPosition = _target.Center;
 
             if (Vector3.Distance(transform.position, targetPosition) <= arrivalThreshold)
             {
                 Destroy(gameObject);
                 return; 
             }
-
 
             transform.position = Vector3.MoveTowards(
                 transform.position,

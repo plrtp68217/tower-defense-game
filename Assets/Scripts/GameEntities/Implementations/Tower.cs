@@ -5,29 +5,6 @@ using UnityEngine;
 
 public class Tower : TowerEntityBase, IPreviewable
 {
-    private class UnitDistrubutor
-    {
-        public IList<Tower> Targets { get; }
-
-        private int _index = 0;
-
-        public UnitDistrubutor(IList<Tower> towers)
-        {
-            Targets = towers;
-        }
-        public IEnumerable<Tower> NextTarget()
-        {
-            while (true)
-            {
-                if (Targets.Count == 0) yield return null;
-
-                _index = (_index + 1) % Targets.Count;
-
-                yield return Targets[_index];
-            }
-        }
-    }
-
     private readonly List<Renderer> _previewObjectRenderers = new();
     private readonly Dictionary<Renderer, Material> _originalMaterials = new();
 
@@ -35,22 +12,20 @@ public class Tower : TowerEntityBase, IPreviewable
     private Color _validPreviewColor = Color.white;
     private Color _inValidPreviewColor = Color.red;
 
-
-    private UnitDistrubutor _distributor;
+    private UnitDistributor _distributor;
 
     private void Start()
     {
         _distributor = new(_targetTowers);
-        StartCoroutine(SpawnUnitsWithDelay());
+        StartCoroutine(SpawnUnits());
     }
 
-    private IEnumerator SpawnUnitsWithDelay(float spawnInterval = 1f)
+    private IEnumerator SpawnUnits(float spawnInterval = 1f)
     {
-        while (true)
-        {
-            var nextTarget = _distributor.NextTarget().FirstOrDefault();
 
-            if (nextTarget == null) 
+        foreach (var nextTarget in _distributor.NextTarget())
+        {
+            if (nextTarget == null)
             {
                 yield return new WaitForSeconds(spawnInterval);
                 continue;
