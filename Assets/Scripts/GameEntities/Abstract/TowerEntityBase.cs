@@ -50,12 +50,6 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
         }
     }
 
-    public virtual void TakeDamage(float damage, DamageSource source)
-    {
-        throw new NotImplementedException();
-    }
-
-
     protected virtual void Die()
     {
         throw new NotImplementedException();
@@ -69,5 +63,10 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
     public void Dispose()
     {
         Destroy(gameObject);
+    }
+
+    public virtual void TakeDamage(int damage, DamageSource damageSource)
+    {
+        throw new NotImplementedException();
     }
 }

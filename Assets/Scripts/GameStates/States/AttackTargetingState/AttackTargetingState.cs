@@ -65,7 +65,9 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
             _lineRenderer.SetPosition(1, _targetPosition);
 
-            _connectionService.AddConnection(_selectedTower, targetTower);
+            _connectionService.AddConnection(_selectedTower, targetTower); // USLESS
+
+            _selectedTower.AddTarget(targetTower);
 
             _stateManager.SwitchToState<IdleState, IdleStateContext>();
         }

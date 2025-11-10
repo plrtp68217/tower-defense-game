@@ -1,22 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public abstract class UnitEntityBase :  IDamagable, IPlacable
+public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
 {
-    public Vector2Int Size { get; set; }
-    public GameObject Instance { get; set; }
-    public GameObject Prefab { get; set; }
-    public float Health { get; set; }
-    public bool IsAlive => Health > 0;
+    [field: SerializeField] public UnitData UnitData { get; set; }
+
+    public bool IsAlive => UnitData.Health > 0;
 
     public Vector3 WorldPosition { get; set; }
 
-    public virtual void TakeDamage(float damage, DamageSource source)
+    public virtual void TakeDamage(int damage, DamageSource source)
     {
         if (!IsAlive) return;
 
-        Health -= damage;
+        UnitData.Health -= damage;
 
-        if (Health <= 0)
+        if (UnitData.Health <= 0)
         {
             Die();
         }
@@ -28,12 +27,11 @@ public abstract class UnitEntityBase :  IDamagable, IPlacable
 
     protected virtual void Die()
     {
-        // Общая анимация смерти
-        //UnityEngine.Object.Destroy(Prefab);
+        throw new NotImplementedException();
     }
 
     protected virtual void OnDamageTaken(float damage, DamageSource source)
     {
-        // Можно переопределить в наследниках
+        throw new NotImplementedException();
     }
 }

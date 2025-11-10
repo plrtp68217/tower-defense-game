@@ -2747,7 +2747,6 @@ MonoBehaviour:
   <InputManager>k__BackingField: {fileID: 184030655}
   <BuildingService>k__BackingField: {fileID: 568839635}
   <ConnectionService>k__BackingField: {fileID: 461506229}
-  <EnemySpawner>k__BackingField: {fileID: 0}
   <IdleUI>k__BackingField: {fileID: 1657976892}
   <BuildUI>k__BackingField: {fileID: 1797601750}
   <FightUI>k__BackingField: {fileID: 218966252}

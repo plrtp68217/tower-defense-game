@@ -5,7 +5,6 @@ public sealed class StateManager : MonoBehaviour
     [field: SerializeField] public InputService InputManager { get; private set; }
     [field: SerializeField] public BuildingService BuildingService { get; private set; }
     [field: SerializeField] public ConnectionService ConnectionService { get; private set; }
-    [field: SerializeField] public EnemySpawner EnemySpawner { get; private set; }
 
     [field: SerializeField] public UIState IdleUI { get; private set; }
     [field: SerializeField] public UIState BuildUI { get; private set; }

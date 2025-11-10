@@ -4,14 +4,14 @@
 public class UnitData : ScriptableObject
 {
     [Header("Основные параметры")]
-    public string EntityName;
-    public GameObject Prefab;
+    public string Name;
     public Vector2Int Size;
 
 
     [Header("Характеристики")]
-    public float MaxHealth = 100f;
-    public float Damage = 1f;
+    public float MoveSpeed = 5f;
+    public int Health = 1;
+    public float Damage = 1;
 
     [Header("Дополнительные параметры")]
     public Team EntityTeam = Team.Blue;

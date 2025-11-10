@@ -4,6 +4,7 @@ public sealed class IdleState : StateBase<IdleStateContext>
 {
     private readonly BuildingService _buildingService;
     private readonly InputService _inputManager;
+    private readonly ConnectionService _connectionService;
 
     private readonly UIState _ui;
 
@@ -12,6 +13,7 @@ public sealed class IdleState : StateBase<IdleStateContext>
     {
         _buildingService = stateManager.BuildingService;
         _inputManager = stateManager.InputManager;
+        _connectionService = stateManager.ConnectionService;
 
         _ui = stateManager.IdleUI;
     }
@@ -23,6 +25,9 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
     public override void OnUpdate()
     {
+        // обращаемся к каждой башне, смотрим список toTower
+        // для каждого toTOwer делаем startCorutine
+        // для этого сделать метод направления противника в сторону башни toTower
     }
 
     public override void OnClick()

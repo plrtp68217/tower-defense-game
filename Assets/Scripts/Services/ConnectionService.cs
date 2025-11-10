@@ -7,41 +7,8 @@ public class ConnectionService : MonoBehaviour
 
     [field: SerializeField]
     public GameObject DebugSpherePrefab { get; set; }
-    private readonly bool _showDebugSpheres = true;
+    //private readonly bool _showDebugSpheres = true;
     private readonly List<GameObject> _debugSpheres = new();
-
-    private void RemoveAllDebugSpheres()
-    {
-        foreach (GameObject sphere in _debugSpheres)
-        {
-            if (sphere != null)
-            {
-                Destroy(sphere);
-            }
-        }
-        _debugSpheres.Clear();
-    }
-
-    private void DrawDebugSpheres(IReadOnlyList<Vector3> points, float sphereRadius)
-    {
-        if (DebugSpherePrefab == null)
-        {
-            Debug.LogWarning("Debug sphere prefab is not assigned!");
-            return;
-        }
-
-        RemoveAllDebugSpheres();
-
-        foreach (Vector3 point in points)
-        {
-            GameObject sphere = Instantiate(DebugSpherePrefab, point, Quaternion.identity);
-            sphere.name = "DebugSphere";
-
-            sphere.transform.localScale = 2f * sphereRadius * Vector3.one; // Диаметр = 2 × радиус
-            _debugSpheres.Add(sphere);
-            Destroy(sphere, 2f);
-        }
-    }
 
     public void AddConnection(Tower fromTower, Tower toTower)
     {
@@ -89,14 +56,14 @@ public class ConnectionService : MonoBehaviour
 
         const float sphereRadius = 0.3f;
         var pointsAlongLine = GetPointsAlongLine(fromPos, toPos);
-        if (_showDebugSpheres)
-        {
-            DrawDebugSpheres(pointsAlongLine, sphereRadius);
-        }
-        else
-        {
-            RemoveAllDebugSpheres();
-        }
+        //if (_showDebugSpheres)
+        //{
+        //    DrawDebugSpheres(pointsAlongLine, sphereRadius);
+        //}
+        //else
+        //{
+        //    RemoveAllDebugSpheres();
+        //}
 
         foreach (Vector3 point in pointsAlongLine)
         {
@@ -144,5 +111,38 @@ public class ConnectionService : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void RemoveAllDebugSpheres()
+    {
+        foreach (GameObject sphere in _debugSpheres)
+        {
+            if (sphere != null)
+            {
+                Destroy(sphere);
+            }
+        }
+        _debugSpheres.Clear();
+    }
+
+    private void DrawDebugSpheres(IReadOnlyList<Vector3> points, float sphereRadius)
+    {
+        if (DebugSpherePrefab == null)
+        {
+            Debug.LogWarning("Debug sphere prefab is not assigned!");
+            return;
+        }
+
+        RemoveAllDebugSpheres();
+
+        foreach (Vector3 point in points)
+        {
+            GameObject sphere = Instantiate(DebugSpherePrefab, point, Quaternion.identity);
+            sphere.name = "DebugSphere";
+
+            sphere.transform.localScale = 2f * sphereRadius * Vector3.one; // Диаметр = 2 × радиус
+            _debugSpheres.Add(sphere);
+            Destroy(sphere, 2f);
+        }
     }
 }
