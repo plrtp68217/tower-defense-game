@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6847909061667158558}
   - component: {fileID: 2116930095237621661}
   - component: {fileID: 3558446008121147859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MediumTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4224763733322959866}
   - component: {fileID: 5659906605660268686}
   - component: {fileID: 1097874423405094444}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 8451343585537192388}
   - component: {fileID: 5687584719277735835}
   - component: {fileID: 18099729338158100}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540403423868624401}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 2x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

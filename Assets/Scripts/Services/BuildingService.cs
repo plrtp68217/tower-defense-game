@@ -23,7 +23,7 @@ public class BuildingService : MonoBehaviour
         return true;
     }
 
-    public T? GetObjectAtPosition<T>(Vector3Int position)
+    public T GetObjectAtPosition<T>(Vector3Int position)
         where T : TowerEntityBase
     {
         return _map.GetObjectAtPosition(position) as T;

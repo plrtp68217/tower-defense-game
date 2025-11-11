@@ -38,7 +38,7 @@ public class ConnectionService : MonoBehaviour
 
         if (connection == null) return;
 
-        Tower tower = connection.Tower;
+        Tower tower = connection.StartTower;
         Tower targetTower = connection.TargetTower;
 
         tower.RemoveTarget(targetTower);

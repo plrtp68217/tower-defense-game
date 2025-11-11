@@ -32,22 +32,18 @@ public sealed class IdleState : StateBase<IdleStateContext>
     {
         if (_inputManager.IsPointerOverUI()) return;
 
-        Vector3 mousePos = _inputManager.GetSelectedMapPosition(out GameObject selectedObject);
-        Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
-        
-        Tower tower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
+        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
 
-        if (tower != null)
+        GameObject towerObj = _inputManager.GetObjectInRadius(mousePos, 5, LayerMask.NameToLayer(Layers.Objects));
+
+        if (towerObj.TryGetComponent(out Tower tower))
         {
             _stateManager.SwitchToState<AttackTargetingState, AttackTargetingStateContext>(
-                new AttackTargetingStateContext() { SelectedTower = tower }
+                new() { SelectedTower = tower }
             );
-        }
-        else if (selectedObject == null)
-        {
             return;
         }
-        else if (selectedObject.TryGetComponent<LineRenderer>(out var line))
+        else if (towerObj.TryGetComponent(out LineRenderer line))
         {
             _connectionService.RemoveConnectionByLine(line);
         }

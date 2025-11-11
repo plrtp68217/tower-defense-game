@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6954225792935892825}
   - component: {fileID: 1490472305269339181}
   - component: {fileID: 6133710555177466511}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 6252209450407924032}
   - component: {fileID: 7596325262634152040}
   - component: {fileID: 9095002669382437416}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmallTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5711588490393322162}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 1x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

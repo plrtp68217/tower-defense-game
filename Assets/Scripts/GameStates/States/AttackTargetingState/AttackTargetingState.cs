@@ -2,9 +2,8 @@ using UnityEngine;
 
 public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext>
 {
-    private LineRenderer _lineRenderer;
-    private Tower _selectedTower;
-    private Vector3 _targetPosition;
+    private Connection _connection;
+
     private readonly InputService _inputManager;
     private readonly BuildingService _buildingService;
     private readonly ConnectionService _connectionService;
@@ -19,32 +18,16 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnEnter()
     {
-        //!!! сделать фабрику с генерацией линий
-        GameObject lineObj = new("Line");
-        lineObj.layer = LayerMask.NameToLayer(Layers.Line);
-
-        _lineRenderer = lineObj.AddComponent<LineRenderer>();
-        _lineRenderer.startWidth = 0.5f;
-        _lineRenderer.endWidth   = 0.5f;
-        _lineRenderer.material   = new Material(Shader.Find("Unlit/Color"))
-        {
-            color = Color.brown
-        };
-        _lineRenderer.positionCount = 2;
-
-        _selectedTower = Context.SelectedTower;
-        //!!!
+        _connection = new(Context.SelectedTower);
     }
 
     public override void OnUpdate()
     {
+        if (_connection == null) return;
         Vector3 mousePos = _inputManager.GetSelectedMapPosition();
-        _targetPosition  = mousePos;
+        _connection.MoveTo(mousePos);
 
-        _lineRenderer.SetPosition(0, _selectedTower.Center);
-        _lineRenderer.SetPosition(1, _targetPosition);
-
-        _lineRenderer.enabled = !_stateManager.InputManager.IsPointerOverUI();
+        //_connection.enabled = !_stateManager.InputManager.IsPointerOverUI();
     }
 
     public override void OnClick()
@@ -56,46 +39,25 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         var targetTower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
 
-        if (targetTower == null || _selectedTower == targetTower)
+        bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
+
+        if (targetTower == null || isConnectionBlocked)
         {
-            Object.Destroy(_lineRenderer.gameObject);
-            _stateManager.SwitchToState<IdleState, IdleStateContext>();
-            return;
-        }
-
-        bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_selectedTower, targetTower);
-
-        if (isConnectionBlocked == false)
-        {
-            _targetPosition = targetTower.Center;
-
-            _lineRenderer.SetPosition(1, _targetPosition);
-
-            //!!! ћетод в фабрике дл€ донастройки линии перед постановкой
-            MeshCollider collider = _lineRenderer.gameObject.AddComponent<MeshCollider>();
-            Mesh mesh = new();
-            _lineRenderer.BakeMesh(mesh, true);
-            collider.sharedMesh = mesh;
-            //!!!
-
-            Connection connection = new(_selectedTower, targetTower, _lineRenderer);
-
-            _connectionService.AddConnection(connection);
-
-            _selectedTower.AddTarget(targetTower);
-
+            _connection.Destroy();
             _stateManager.SwitchToState<IdleState, IdleStateContext>();
         }
-        else
-        {
-            Object.Destroy(_lineRenderer.gameObject);
-            _stateManager.SwitchToState<IdleState, IdleStateContext>();
-        }
+
+        _connection.SetTarget(targetTower);
+
+        _connectionService.AddConnection(_connection);
+
+        _stateManager.SwitchToState<IdleState, IdleStateContext>();
     }
 
 
     public override void OnExit()
     {
-        _lineRenderer = null;
+        if (_connection != null) _connection.Destroy();
+
     }
 }

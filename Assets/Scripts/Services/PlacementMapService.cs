@@ -126,7 +126,7 @@ public sealed class PlacementMapService : MonoBehaviour
     /// </summary>
     /// <param name="position">Координаты сетки</param>
     /// <returns>Объект типа IGridable или null, если позиция свободна</returns>
-    public IGridable? GetObjectAtPosition(Vector3Int position)
+    public IGridable GetObjectAtPosition(Vector3Int position)
     {
         foreach (IGridable obj in _placedObjects)
         {
