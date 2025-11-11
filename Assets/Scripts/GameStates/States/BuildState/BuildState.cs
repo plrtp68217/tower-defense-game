@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// Состояние строительства: отображает превью объекта и обрабатывает его размещение.

@@ -18,16 +18,18 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnEnter()
     {
-        _connection = new(Context.SelectedTower);
+        GameObject connectionObject = Object.Instantiate(_connectionService.LinePrefab);
+        _connection = connectionObject.GetComponent<Connection>();
+        _connection.SetStart(Context.SelectedTower);
+        _connection.MoveFrom(Context.SelectedTower.Center);
     }
 
     public override void OnUpdate()
     {
         if (_connection == null) return;
+
         Vector3 mousePos = _inputManager.GetSelectedMapPosition();
         _connection.MoveTo(mousePos);
-
-        //_connection.enabled = !_stateManager.InputManager.IsPointerOverUI();
     }
 
     public override void OnClick()
@@ -39,12 +41,20 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         var targetTower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
 
-        bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
-
-        if (targetTower == null || isConnectionBlocked)
+        if (targetTower == null)
         {
             _connection.Destroy();
             _stateManager.SwitchToState<IdleState, IdleStateContext>();
+            return;
+        }
+
+        bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
+
+        if (isConnectionBlocked)
+        {
+            _connection.Destroy();
+            _stateManager.SwitchToState<IdleState, IdleStateContext>();
+            return;
         }
 
         _connection.SetTarget(targetTower);
@@ -57,7 +67,10 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnExit()
     {
-        if (_connection != null) _connection.Destroy();
+        if (_connection != null) 
+        {
+            _connection = null;
+        }
 
     }
 }

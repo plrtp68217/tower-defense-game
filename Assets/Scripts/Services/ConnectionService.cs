@@ -5,10 +5,11 @@ using UnityEngine;
 public class ConnectionService : MonoBehaviour
 {
     private readonly IList<Connection> _connections = new List<Connection>();
+    private readonly Collider[] _collidersBuffer = new Collider[128];
 
-    [field: SerializeField]
-    public GameObject DebugSpherePrefab { get; set; }
-    //private readonly bool _showDebugSpheres = true;
+    [field: SerializeField] public GameObject LinePrefab { get; set; }
+    [field: SerializeField] public GameObject DebugSpherePrefab { get; set; }
+
     private readonly List<GameObject> _debugSpheres = new();
 
     public void AddConnection(Connection connection)
@@ -18,24 +19,9 @@ public class ConnectionService : MonoBehaviour
             _connections.Add(connection);
         }
     }
-    
-    public Connection FindConnectionByLine(LineRenderer line)
+
+    public void RemoveConnection(Connection connection)
     {
-        foreach (Connection connection in _connections)
-        {
-            if (connection.Line == line)
-            {
-                return connection;
-            }
-        }
-
-        return null;
-    }
-
-    public void RemoveConnectionByLine(LineRenderer line)
-    {
-        Connection connection = FindConnectionByLine(line);
-
         if (connection == null) return;
 
         Tower tower = connection.StartTower;
@@ -45,7 +31,7 @@ public class ConnectionService : MonoBehaviour
 
         _connections.Remove(connection);
 
-        Destroy(connection.Line.gameObject);
+        Destroy(connection.gameObject);
     }
 
     public bool IsConnectionBlocked(Tower fromTower, Tower toTower)
@@ -56,25 +42,19 @@ public class ConnectionService : MonoBehaviour
         const float sphereRadius = 0.3f;
         var pointsAlongLine = GetPointsAlongLine(fromPos, toPos);
 
-        //if (_showDebugSpheres)
-        //{
-        //    DrawDebugSpheres(pointsAlongLine, sphereRadius);
-        //}
-        //else
-        //{
-        //    RemoveAllDebugSpheres();
-        //}
-
         foreach (Vector3 point in pointsAlongLine)
         {
             if (Vector3.Distance(point, fromPos) < 1f || Vector3.Distance(point, toPos) < 1f)
+            {
                 continue;
+            }
 
             if (IsPointBlocked(point, fromTower, toTower, sphereRadius))
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -95,19 +75,23 @@ public class ConnectionService : MonoBehaviour
         return points;
     }
 
-    private readonly Collider[] _collidersBuffer = new Collider[128];
     private bool IsPointBlocked(Vector3 worldPosition, Tower fromTower, Tower toTower, float sphereRadius = 0.1f)
     {
         var n = Physics.OverlapSphereNonAlloc(worldPosition, sphereRadius, _collidersBuffer);
+
         for (int i = 0; i < n; i++)
         {
             Collider collider = _collidersBuffer[i];
+
             if (collider.transform.position == fromTower.WorldPosition || collider.transform.position == toTower.WorldPosition)
+            {
                 continue;
+            }
 
             if (collider.TryGetComponent<IPlacable>(out var _))
+            {
                 return true;
-
+            }
         }
 
         return false;

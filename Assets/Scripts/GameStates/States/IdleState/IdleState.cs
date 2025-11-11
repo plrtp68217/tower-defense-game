@@ -2,7 +2,6 @@
 
 public sealed class IdleState : StateBase<IdleStateContext>
 {
-    private readonly BuildingService _buildingService;
     private readonly InputService _inputManager;
     private readonly ConnectionService _connectionService;
 
@@ -11,7 +10,6 @@ public sealed class IdleState : StateBase<IdleStateContext>
     public IdleState(StateManager stateManager)
         : base(stateManager)
     {
-        _buildingService = stateManager.BuildingService;
         _inputManager = stateManager.InputManager;
         _connectionService = stateManager.ConnectionService;
 
@@ -34,18 +32,23 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
         Vector3 mousePos = _inputManager.GetSelectedMapPosition();
 
-        GameObject towerObj = _inputManager.GetObjectInRadius(mousePos, 5, LayerMask.NameToLayer(Layers.Objects));
+        GameObject obj = _inputManager.GetObjectInRadius(mousePos, radius: 0.25f, LayerMask.NameToLayer(Layers.Objects));
 
-        if (towerObj.TryGetComponent(out Tower tower))
+        if (obj == null) return;
+
+        if (obj.TryGetComponent(out Tower tower))
         {
             _stateManager.SwitchToState<AttackTargetingState, AttackTargetingStateContext>(
                 new() { SelectedTower = tower }
             );
+
             return;
         }
-        else if (towerObj.TryGetComponent(out LineRenderer line))
+        else if (obj.TryGetComponent(out Connection connection))
         {
-            _connectionService.RemoveConnectionByLine(line);
+            _connectionService.RemoveConnection(connection);
+
+            return;
         }
     }
 

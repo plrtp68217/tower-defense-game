@@ -1,32 +1,21 @@
 ﻿using UnityEngine;
 
-public class Connection
+public class Connection: MonoBehaviour
 {
+    private LineRenderer _lineRenderer;
+
     public Tower StartTower { get; private set; }
     public Tower TargetTower { get; private set; }
-    public LineRenderer Line { get; private set; }
 
-    public Connection(Tower startTower)
+
+    private void Awake()
     {
-        //TargetTower = targetTower;
-        //Line = line;
-        GameObject lineObj = new()
-        {
-            name = "Line",
-            layer = LayerMask.NameToLayer(Layers.Objects)
-        };
+        _lineRenderer = GetComponent<LineRenderer>();
+    }
 
-        Line = lineObj.AddComponent<LineRenderer>();
-        Line.startWidth = 0.5f;
-        Line.endWidth = 0.5f;
-        Line.material = new Material(Shader.Find("Unlit/Color"))
-        {
-            color = Color.brown
-        };
-        Line.positionCount = 2;
-        StartTower = startTower;
-        Line.SetPosition(0, StartTower.Center);
-
+    public void SetStart(Tower tower)
+    {
+        StartTower = tower;
     }
 
     public void SetTarget(Tower target)
@@ -34,14 +23,23 @@ public class Connection
         if (target == StartTower) return;
 
         TargetTower = target;
-        MoveTo(target.Center);
-        MeshCollider collider = Line.gameObject.AddComponent<MeshCollider>();
-        Mesh mesh = new();
-        Line.BakeMesh(mesh, true);
-        collider.sharedMesh = mesh;
-        StartTower.AddTarget(target);
 
+        MoveTo(target.Center);
+
+        CreateCollider();
+
+        StartTower.AddTarget(target);
     }
-    public void Destroy() => Object.Destroy(Line);
-    public void MoveTo(Vector3 pos) => Line.SetPosition(1, pos);
+
+    public void MoveFrom(Vector3 pos) => _lineRenderer.SetPosition(0, pos);
+    public void MoveTo(Vector3 pos) => _lineRenderer.SetPosition(1, pos);
+    public void Destroy() => Destroy(gameObject);
+
+    private void CreateCollider()
+    {
+        MeshCollider collider = gameObject.AddComponent<MeshCollider>();
+        Mesh mesh = new();
+        _lineRenderer.BakeMesh(mesh, true);
+        collider.sharedMesh = mesh;
+    }
 }
