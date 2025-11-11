@@ -20,10 +20,9 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
     public override void OnEnter()
     {
         //!!! сделать фабрику с генерацией линий
-        GameObject lineObj = new("Line")
-        {
-            layer = LayerMask.NameToLayer("Placement")
-        };
+        GameObject lineObj = new("Line");
+        lineObj.layer = LayerMask.NameToLayer(Layers.Line);
+
         _lineRenderer = lineObj.AddComponent<LineRenderer>();
         _lineRenderer.startWidth = 0.5f;
         _lineRenderer.endWidth   = 0.5f;
@@ -39,11 +38,8 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnUpdate()
     {
-
-        Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
-        Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
-       
-        _targetPosition = _buildingService.CellToWorld(gridPos);
+        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
+        _targetPosition  = mousePos;
 
         _lineRenderer.SetPosition(0, _selectedTower.Center);
         _lineRenderer.SetPosition(1, _targetPosition);
@@ -60,7 +56,12 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         var targetTower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
 
-        if (targetTower == null) return;
+        if (targetTower == null || _selectedTower == targetTower)
+        {
+            Object.Destroy(_lineRenderer.gameObject);
+            _stateManager.SwitchToState<IdleState, IdleStateContext>();
+            return;
+        }
 
         bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_selectedTower, targetTower);
 
@@ -87,7 +88,8 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
         }
         else
         {
-            Debug.Log("Connection blocked! Cannot create connection.");
+            Object.Destroy(_lineRenderer.gameObject);
+            _stateManager.SwitchToState<IdleState, IdleStateContext>();
         }
     }
 

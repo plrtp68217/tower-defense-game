@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c633bf471a391774583f26fa1f983ba4, type: 3}
   m_Name: UnitData
   m_EditorClassIdentifier: Assembly-CSharp::EntityData
-  EntityName: Moroz
-  Prefab: {fileID: 5168384136683305344, guid: 2aed2684fa7c1c44bbc32e2930a44a01, type: 3}
+  Name: 
   Size: {x: 1, y: 1}
-  MaxHealth: 100
+  MoveSpeed: 5
+  Health: 1
   Damage: 1
   EntityTeam: 0

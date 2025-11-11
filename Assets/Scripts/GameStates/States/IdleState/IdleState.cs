@@ -25,35 +25,31 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
     public override void OnUpdate()
     {
-        _inputManager.GetSelectedMapPosition(out GameObject selectedObject);
-
-        if (selectedObject == null) return;
         
-        if (selectedObject.TryGetComponent<LineRenderer>(out var line))
-        {
-            Debug.Log(line);
-            _connectionService.RemoveConnectionByLine(line);
-        }
     }
 
-    public override void OnClick()
+    public override void OnPressed()
     {
         if (_inputManager.IsPointerOverUI()) return;
 
-        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
+        Vector3 mousePos = _inputManager.GetSelectedMapPosition(out GameObject selectedObject);
         Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
+        
+        Tower tower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
 
-        var selectedObject = _buildingService.GetObjectAtPosition<Tower>(gridPos);
-
-        if (selectedObject != null)
+        if (tower != null)
         {
             _stateManager.SwitchToState<AttackTargetingState, AttackTargetingStateContext>(
-                new AttackTargetingStateContext() { SelectedTower = selectedObject }
+                new AttackTargetingStateContext() { SelectedTower = tower }
             );
         }
-        else
+        else if (selectedObject == null)
         {
-            Debug.Log("object not found");
+            return;
+        }
+        else if (selectedObject.TryGetComponent<LineRenderer>(out var line))
+        {
+            _connectionService.RemoveConnectionByLine(line);
         }
     }
 

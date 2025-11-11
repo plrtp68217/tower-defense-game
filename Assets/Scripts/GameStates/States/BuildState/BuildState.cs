@@ -17,9 +17,8 @@ public sealed class BuildState : StateBase<BuildStateContext>
         StateManager stateManager
     ) : base(stateManager)
     {
-        _buildingService    = stateManager.BuildingService;
-        _inputManager       = stateManager.InputManager;
-
+        _buildingService = stateManager.BuildingService;
+        _inputManager = stateManager.InputManager;
 
         _ui = stateManager.BuildUI;
     }
@@ -33,10 +32,10 @@ public sealed class BuildState : StateBase<BuildStateContext>
         GameObject towerObject = Object.Instantiate(Context.Prefab);
         _currentTower = towerObject.GetComponent<Tower>();
 
-        Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
-        Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
+        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
+        Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
         _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
-        _currentTower.GridPosition  = gridPos;
+        _currentTower.GridPosition = gridPos;
 
         _currentTower.SetPreviewMaterial();
         _buildingService.ShowGrid();
@@ -54,13 +53,13 @@ public sealed class BuildState : StateBase<BuildStateContext>
     {
         if (Context.Prefab == null) return;
 
-        Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
-        Vector3Int gridPos  = _buildingService.WorldToCell(mousePos);
+        Vector3 mousePos = _inputManager.GetSelectedMapPosition();
+        Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
         _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
-        _currentTower.GridPosition  = gridPos;
+        _currentTower.GridPosition = gridPos;
 
         bool isPlaceFree = _buildingService.CanPlace(_currentTower);
-        
+
         _currentTower.SetPreviewValidity(isPlaceFree);
     }
 
@@ -78,11 +77,11 @@ public sealed class BuildState : StateBase<BuildStateContext>
             _currentTower = towerObject.GetComponent<Tower>();
             _currentTower.SetPreviewMaterial();
 
-            Vector3 mousePos    = _inputManager.GetSelectedMapPosition();
+            Vector3 mousePos = _inputManager.GetSelectedMapPosition();
             Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
             _currentTower.WorldPosition = _buildingService.CellToWorld(gridPos);
             _currentTower.GridPosition = gridPos;
-            
+
             _stateManager.AudioSourceSuccess.Play();
         }
     }

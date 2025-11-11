@@ -30,6 +30,7 @@ public sealed class StateManager : MonoBehaviour
         _stateFactory = new StateFactory(this);
 
         InputManager.OnClicked += OnClick;
+        InputManager.OnPressed += OnPressed;
 
         SwitchToState<IdleState, IdleStateContext>();
     }
@@ -42,6 +43,11 @@ public sealed class StateManager : MonoBehaviour
     private void OnClick()
     {
         _currentState?.OnClick();
+    }
+
+    private void OnPressed()
+    {
+        _currentState?.OnPressed();
     }
 
     private void OnExit()

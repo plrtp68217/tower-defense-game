@@ -20,5 +20,7 @@
 
     public virtual void OnClick() { }
 
+    public virtual void OnPressed() { }
+
     public virtual void OnExit() { }
 }
