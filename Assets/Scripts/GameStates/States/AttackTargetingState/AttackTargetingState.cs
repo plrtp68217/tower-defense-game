@@ -43,14 +43,6 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
 
-        //if (targetTower == null)
-        //{
-        //    _connection.Destroy();
-        //    _stateManager.SwitchToState<IdleState, IdleStateContext>();
-        //    return;
-        //}
-
-
         if (isConnectionBlocked)
         {
             _connection.Destroy();
