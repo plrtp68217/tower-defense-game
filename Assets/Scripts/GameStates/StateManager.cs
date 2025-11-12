@@ -8,7 +8,6 @@ public sealed class StateManager : MonoBehaviour
 
     [field: SerializeField] public UIState IdleUI { get; private set; }
     [field: SerializeField] public UIState BuildUI { get; private set; }
-    [field: SerializeField] public UIState FightUI { get; private set; }
 
     [field: SerializeField] public AudioSource AudioSourceSuccess { get; private set; }
 
