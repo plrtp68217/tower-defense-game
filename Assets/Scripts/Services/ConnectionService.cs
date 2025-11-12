@@ -36,6 +36,8 @@ public class ConnectionService : MonoBehaviour
 
     public bool IsConnectionBlocked(Tower fromTower, Tower toTower)
     {
+        if (fromTower == null || toTower == null) return true;
+
         Vector3 fromPos = fromTower.Center;
         Vector3 toPos = toTower.Center;
 

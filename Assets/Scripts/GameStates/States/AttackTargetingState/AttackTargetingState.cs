@@ -41,14 +41,15 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         var targetTower = _buildingService.GetObjectAtPosition<Tower>(gridPos);
 
-        if (targetTower == null)
-        {
-            _connection.Destroy();
-            _stateManager.SwitchToState<IdleState, IdleStateContext>();
-            return;
-        }
-
         bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
+
+        //if (targetTower == null)
+        //{
+        //    _connection.Destroy();
+        //    _stateManager.SwitchToState<IdleState, IdleStateContext>();
+        //    return;
+        //}
+
 
         if (isConnectionBlocked)
         {
