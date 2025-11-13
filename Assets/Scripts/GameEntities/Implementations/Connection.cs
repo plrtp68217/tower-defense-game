@@ -17,6 +17,7 @@ public class Connection: MonoBehaviour
     public void SetStart(Tower tower)
     {
         StartTower = tower;
+        MoveFrom(tower.Center);
     }
 
     public void SetTarget(Tower target)

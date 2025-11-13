@@ -21,7 +21,6 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
         GameObject connectionObject = Object.Instantiate(_connectionService.LinePrefab);
         _connection = connectionObject.GetComponent<Connection>();
         _connection.SetStart(Context.SelectedTower);
-        _connection.MoveFrom(Context.SelectedTower.Center);
     }
 
     public override void OnUpdate()

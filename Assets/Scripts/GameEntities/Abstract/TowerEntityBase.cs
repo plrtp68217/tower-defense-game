@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IGridable, IDisposable
