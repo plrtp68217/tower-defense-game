@@ -32,11 +32,12 @@ public class Tower : TowerEntityBase, IPreviewable
                 continue;
             }
 
-            var unit = Instantiate(TowerData.UnitPrefab, Center, Quaternion.identity);
+            var gameObject = Instantiate(TowerData.UnitPrefab, Center, Quaternion.identity);
 
-            if (unit.TryGetComponent<Unit>(out Unit unitComponent))
+            if (gameObject.TryGetComponent(out Unit unit))
             {
-                unitComponent.SetTargetTower(nextTarget);
+                unit.UnitData.Team = TowerData.Team;
+                unit.SetTargetTower(nextTarget);
             }
 
             yield return new WaitForSeconds(spawnInterval);

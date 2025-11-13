@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
@@ -9,29 +10,23 @@ public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
 
     public Vector3 WorldPosition { get; set; }
 
-    public virtual void TakeDamage(int damage, DamageSource source)
+    public void DealDamage(IDamagable damageTarget)
     {
-        if (!IsAlive) return;
+        damageTarget.TakeDamage(UnitData.Damage, UnitData.Team);
+    }
 
-        UnitData.Health -= damage;
-
-        if (UnitData.Health <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            OnDamageTaken(damage, source);
-        }
+    public void TakeDamage(int damage, Team team)
+    {
+        throw new NotImplementedException();
     }
 
     protected virtual void Die()
     {
-        throw new NotImplementedException();
+        Destroy(gameObject);
     }
 
-    protected virtual void OnDamageTaken(float damage, DamageSource source)
+    private void Awake()
     {
-        throw new NotImplementedException();
+        UnitData = UnitData.Clone();
     }
 }

@@ -1,5 +1,6 @@
 ﻿public interface IDamagable
 {
-    void TakeDamage(int damage , DamageSource damageSource);
+    void TakeDamage(int damage, Team team);
+    void DealDamage(IDamagable damageTarget);
 }
 

@@ -4,13 +4,11 @@ using UnityEngine;
 
 public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IGridable, IDisposable
 {
-    [SerializeField] private TowerData _towerData;
+    [field: SerializeField] public TowerData TowerData { get; set; }
 
     private Vector3 _worldPosition;
 
-    public Vector2Int Size { get => _towerData.Size; }
-
-    public TowerData TowerData { get => _towerData; }
+    public Vector2Int Size { get => TowerData.Size; }
 
     public Vector3 WorldPosition 
     {
@@ -49,23 +47,35 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
         }
     }
 
-    protected virtual void Die()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected virtual void OnDamageTaken(float damage, DamageSource source)
-    {
-        throw new NotImplementedException();
-    }
-
     public void Dispose()
     {
         Destroy(gameObject);
     }
 
-    public virtual void TakeDamage(int damage, DamageSource damageSource)
+    public void TakeDamage(int damage, Team team)
+    {
+        int damageModifier = team == TowerData.Team ? 1 : -1;
+
+        TowerData.UnitsCount += damage * damageModifier;
+
+        if (TowerData.UnitsCount < 0)
+        {
+            TowerData.Team = team;
+            TowerData.UnitsCount = 0;
+        }
+        else if (TowerData.UnitsCount == TowerData.UnitsPerLevel) {
+            TowerData.Level += 1;
+            TowerData.UnitsCount = 0;
+        }
+    }
+
+    public void DealDamage(IDamagable damageTarget)
     {
         throw new NotImplementedException();
+    }
+
+    private void Awake()
+    {
+        TowerData = TowerData.Clone();
     }
 }

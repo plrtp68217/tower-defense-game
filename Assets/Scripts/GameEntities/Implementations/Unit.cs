@@ -18,6 +18,7 @@ public class Unit : UnitEntityBase
 
             if (Vector3.Distance(transform.position, targetPosition) <= arrivalThreshold)
             {
+                DealDamage(_target);
                 Destroy(gameObject);
                 return; 
             }

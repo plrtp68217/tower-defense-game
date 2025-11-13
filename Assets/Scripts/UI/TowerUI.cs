@@ -27,12 +27,12 @@ public class TowerUI: EntityUI
 
     private void Start()
     {
-        UpdateText();
+        Quaternion rotation = _mainCamera.transform.rotation;
+        transform.LookAt(transform.position + rotation * Vector3.forward, rotation * Vector3.up);
     }
 
     private void Update()
     {
-        Quaternion rotation = _mainCamera.transform.rotation;
-        transform.LookAt(transform.position + rotation * Vector3.forward, rotation * Vector3.up);
+        UpdateText();
     }
 }

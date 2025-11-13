@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.6, y: 1.57}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2959289017944097362
 MonoBehaviour:
@@ -411,4 +411,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1513dcc5f6c3d78459e39a9e1169bce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  _towerData: {fileID: 11400000, guid: f244f7b319d378a468a5a2a0b8d219ee, type: 2}
+  <TowerData>k__BackingField: {fileID: 11400000, guid: f7ad8f8f96b625c4eb765e3a666ef175, type: 2}

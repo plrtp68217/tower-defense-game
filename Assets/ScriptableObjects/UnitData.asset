@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c633bf471a391774583f26fa1f983ba4, type: 3}
   m_Name: UnitData
   m_EditorClassIdentifier: Assembly-CSharp::EntityData
-  Name: 
+  Name: Unit
   Size: {x: 1, y: 1}
   MoveSpeed: 5
   Health: 1
