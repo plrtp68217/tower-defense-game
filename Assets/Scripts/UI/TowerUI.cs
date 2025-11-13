@@ -3,19 +3,33 @@ using UnityEngine;
 
 public class TowerUI: EntityUI
 {
-    private Tower _tower;
-    private TextMeshPro _textMeshPro;
+    [SerializeField] private Tower _tower;
+    [SerializeField] private GameObject _text;
+
+    private TextMeshProUGUI _textMeshPro;
+
+    private readonly FontStyles _fontStyle = FontStyles.Bold | FontStyles.UpperCase;
+    private readonly int _fontSize = 36;
+    private readonly Color _fontColor = Color.black;
+
     public override void UpdateText()
     {
-        _textMeshPro.text = "LEVEL: " + _tower.TowerData.Level;
+        _textMeshPro.text = "level: " + _tower.TowerData.Level;
     }
+
+    private void Awake()
+    {
+        _textMeshPro = _text.GetComponent<TextMeshProUGUI>();
+        _textMeshPro.fontStyle = _fontStyle;
+        _textMeshPro.fontSize = _fontSize;
+        _textMeshPro.color = _fontColor;
+    }
+
     private void Start()
     {
-        _tower = gameObject.GetComponentInParent<Tower>();
-
-        _textMeshPro = gameObject.GetComponentInChildren<TextMeshPro>();
-        _textMeshPro.text = "LEVEL: " + _tower.TowerData.Level;
+        UpdateText();
     }
+
     private void Update()
     {
         Quaternion rotation = _mainCamera.transform.rotation;
