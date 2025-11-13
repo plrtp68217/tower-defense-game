@@ -14,7 +14,7 @@ public class TowerUI: EntityUI
 
     public override void UpdateText()
     {
-        _textMeshPro.text = "level: " + _tower.TowerData.Level;
+        _textMeshPro.text = "level: " + _tower.Level;
     }
 
     private void Awake()

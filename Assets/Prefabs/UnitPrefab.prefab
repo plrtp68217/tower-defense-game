@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033d4cc1e0b1a384cb11401a2615849d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
-  <UnitData>k__BackingField: {fileID: 11400000, guid: eb832087644d65b489827b5978c9cefd, type: 2}
+  _data: {fileID: 11400000, guid: eb832087644d65b489827b5978c9cefd, type: 2}
 --- !u!1 &919132149155446097
 GameObject:
   m_ObjectHideFlags: 0

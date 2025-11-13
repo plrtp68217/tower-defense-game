@@ -32,11 +32,11 @@ public class Tower : TowerEntityBase, IPreviewable
                 continue;
             }
 
-            var gameObject = Instantiate(TowerData.UnitPrefab, Center, Quaternion.identity);
+            var gameObject = Instantiate(_data.UnitPrefab, Center, Quaternion.identity);
 
             if (gameObject.TryGetComponent(out Unit unit))
             {
-                unit.UnitData.Team = TowerData.Team;
+                unit.Team = Team;
                 unit.SetTargetTower(nextTarget);
             }
 
@@ -82,7 +82,7 @@ public class Tower : TowerEntityBase, IPreviewable
         {
             _originalMaterials[renderer] = renderer.material;
 
-            renderer.material = TowerData.PreviewMaterial;
+            renderer.material = _data.PreviewMaterial;
             renderer.material.color = _validPreviewColor;
         }
     }

@@ -4,20 +4,29 @@ using UnityEngine;
 
 public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
 {
-    [field: SerializeField] public UnitData UnitData { get; set; }
+    [SerializeField] protected UnitData _data;
 
-    public bool IsAlive => UnitData.Health > 0;
+    public Team Team { get; set; }
+    public int Health { get; set; }
+    public int Damage { get; set; }
 
     public Vector3 WorldPosition { get; set; }
 
     public void DealDamage(IDamagable damageTarget)
     {
-        damageTarget.TakeDamage(UnitData.Damage, UnitData.Team);
+        damageTarget.TakeDamage(Damage, Team);
     }
 
     public void TakeDamage(int damage, Team team)
     {
-        throw new NotImplementedException();
+        if (Team == team) return;
+
+        Health -= damage;
+
+        if (Health <= 0)
+        {
+            Die();
+        }
     }
 
     protected virtual void Die()
@@ -27,6 +36,8 @@ public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
 
     private void Awake()
     {
-        UnitData = UnitData.Clone();
+        Team = _data.Team;
+        Health = _data.Health;
+        Damage = _data.Damage;
     }
 }

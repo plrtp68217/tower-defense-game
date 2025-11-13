@@ -26,7 +26,7 @@ public class Unit : UnitEntityBase
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
-                UnitData.MoveSpeed * Time.deltaTime  
+                _data.MoveSpeed * Time.deltaTime  
             );
 
             transform.LookAt(targetPosition);

@@ -63,4 +63,24 @@ public class InputService : MonoBehaviour
 
         return null;
     }
+
+    public bool TryGetObjectInMap(int layerNumber, out GameObject obj)
+    {
+        obj = null;
+
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = _sceneCamera.nearClipPlane;
+
+        Ray ray = _sceneCamera.ScreenPointToRay(mousePosition);
+
+        int layerMask = 1 << layerNumber;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
+        {
+            obj = hit.collider.gameObject;
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -411,4 +411,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1513dcc5f6c3d78459e39a9e1169bce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  <TowerData>k__BackingField: {fileID: 11400000, guid: f7ad8f8f96b625c4eb765e3a666ef175, type: 2}
+  _data: {fileID: 11400000, guid: f7ad8f8f96b625c4eb765e3a666ef175, type: 2}
