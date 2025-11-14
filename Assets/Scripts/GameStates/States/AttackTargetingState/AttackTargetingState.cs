@@ -33,8 +33,6 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
     public override void OnClick()
     {
-        if (_inputManager.IsPointerOverUI()) return;
-
         Vector3 mousePos = _inputManager.GetSelectedMapPosition();
         Vector3Int gridPos = _buildingService.WorldToCell(mousePos);
 
@@ -42,7 +40,7 @@ public sealed class AttackTargetingState : StateBase<AttackTargetingStateContext
 
         bool isConnectionBlocked = _connectionService.IsConnectionBlocked(_connection.StartTower, targetTower);
 
-        if (isConnectionBlocked)
+        if (isConnectionBlocked || _inputManager.IsPointerOverUI())
         {
             _connection.Destroy();
             _stateManager.SwitchToState<IdleState, IdleStateContext>();
