@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Unit : UnitEntityBase
 {
-    private readonly float arrivalThreshold = 1f;
+    private readonly float arrivalThreshold = 0.1f;
     private Tower _target;
 
     public void SetTargetTower(Tower targetTower)
