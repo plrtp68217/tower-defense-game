@@ -15,6 +15,7 @@ public class InputService : MonoBehaviour
     private LayerMask _placementLayerMask;
 
     private readonly Collider[] _collidersBuffer = new Collider[32];
+    private readonly float _rayCastDistance = 100f; 
 
     public event Action OnClicked, OnPressed;
 
@@ -37,12 +38,10 @@ public class InputService : MonoBehaviour
 
     public Vector3 GetSelectedMapPosition()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = _sceneCamera.nearClipPlane;
+        Vector3 screenPoint = GetScreenPoint();
+        Ray ray = _sceneCamera.ScreenPointToRay(screenPoint);
 
-        Ray ray = _sceneCamera.ScreenPointToRay(mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, _placementLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, _rayCastDistance, _placementLayerMask))
         {
             _lastPosition =  hit.point;
         }
@@ -64,23 +63,26 @@ public class InputService : MonoBehaviour
         return null;
     }
 
-    public bool TryGetObjectInMap(int layerNumber, out GameObject obj)
+    public void GetObjectInMap(int layerNumber, out GameObject obj)
     {
         obj = null;
 
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = _sceneCamera.nearClipPlane;
-
-        Ray ray = _sceneCamera.ScreenPointToRay(mousePosition);
+        Vector3 screenPoint = GetScreenPoint();
+        Ray ray = _sceneCamera.ScreenPointToRay(screenPoint);
 
         int layerMask = 1 << layerNumber;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, _rayCastDistance, layerMask))
         {
             obj = hit.collider.gameObject;
-            return true;
         }
+    }
 
-        return false;
+    private Vector3 GetScreenPoint()
+    {
+        Vector3 screenPoint = Input.mousePosition;
+        screenPoint.z = _sceneCamera.nearClipPlane;
+
+        return screenPoint;
     }
 }
