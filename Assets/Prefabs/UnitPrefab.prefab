@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 936311780939810553}
   - component: {fileID: -1924330416772942832}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: head-mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 445712794880070669}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4436805663696350335}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: -5017971254852617305}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: arm-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5300409415466980475}
   - component: {fileID: 2423034836132870445}
-  m_Layer: 0
+  - component: {fileID: 9214838260421990515}
+  - component: {fileID: 834005009317885188}
+  m_Layer: 7
   m_Name: UnitPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 765568002215973698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.00665, y: -0, z: 5.83903}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -243,6 +245,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   _data: {fileID: 11400000, guid: eb832087644d65b489827b5978c9cefd, type: 2}
+--- !u!136 &9214838260421990515
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765568002215973698}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.4513747
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.7256873, z: 0}
+--- !u!54 &834005009317885188
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765568002215973698}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &919132149155446097
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: -8679921383154817045}
   - component: {fileID: 3929726847877081314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: character-male-e
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7604367576434143486}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6663103606299669057}
   - component: {fileID: 6435320000920075851}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body-mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8891244130364874969}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: arm-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1492312403021943278}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +552,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1812433027226884373}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

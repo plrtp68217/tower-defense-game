@@ -2,15 +2,13 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
+public abstract class UnitEntityBase : MonoBehaviour,  IDamagable
 {
     [SerializeField] protected UnitData _data;
 
     public Team Team { get; set; }
     public int Health { get; set; }
     public int Damage { get; set; }
-
-    public Vector3 WorldPosition { get; set; }
 
     public void DealDamage(IDamagable damageTarget)
     {
@@ -23,10 +21,7 @@ public abstract class UnitEntityBase : MonoBehaviour,  IDamagable, IPlacable
 
         Health -= damage;
 
-        if (Health <= 0)
-        {
-            Die();
-        }
+        if (Health <= 0) Die();
     }
 
     protected virtual void Die()

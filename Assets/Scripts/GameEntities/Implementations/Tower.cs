@@ -63,8 +63,12 @@ public class Tower : TowerEntityBase, IPreviewable
     public void RestoreMaterial()
     {
         foreach (var renderer in _previewObjectRenderers)
+        {
             if (_originalMaterials.TryGetValue(renderer, out var originalMaterial))
+            {
                 renderer.material = originalMaterial;
+            }
+        }
 
         _originalMaterials.Clear();
     }
@@ -89,7 +93,9 @@ public class Tower : TowerEntityBase, IPreviewable
 
     public void SetPreviewValidity(bool isValid)
     {
-        foreach (var renderer in _previewObjectRenderers)
+        foreach (var renderer in _previewObjectRenderers) 
+        {
             renderer.material.color = isValid ? _validPreviewColor : _inValidPreviewColor;
+        }
     }
 }
