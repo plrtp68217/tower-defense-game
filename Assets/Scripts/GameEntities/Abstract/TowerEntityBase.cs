@@ -58,17 +58,26 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
 
     public void TakeDamage(int damage, Team team)
     {
-        int damageModifier = team == Team ? 1 : -1;
+        UnitsCount += damage;
 
-        UnitsCount += damage * damageModifier;
-
-        if (UnitsCount < 0)
+        if (UnitsCount == _data.UnitsPerLevel)
         {
-            Team = team;
+            if (team == Team)
+            {
+                Level += 1;
+            }
+            else
+            {
+                Level -= 1;
+            }
+
             UnitsCount = 0;
         }
-        else if (UnitsCount == _data.UnitsPerLevel) {
-            Level += 1;
+
+        if (Level == 0)
+        {
+            Team = team;
+            Level = 1;
             UnitsCount = 0;
         }
     }

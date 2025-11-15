@@ -1,11 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BuildingService : MonoBehaviour
 {
     [SerializeField] private PlacementMapService _map;
 
+    [SerializeField] private TowerGenerator _towerGenerator;
+    [field: SerializeField] public GameObject TowerPrefab { get; private set; }
+
+    public void BuildTowers(Team team)
+    {
+        List<Vector3> towerPositions = _towerGenerator.GenerateTowers(team);
+
+        Debug.Log(towerPositions.Count);
+
+        foreach (Vector3 position in towerPositions)
+        {
+            GameObject towerObject = Instantiate(TowerPrefab);
+            Tower tower = towerObject.GetComponent<Tower>();
+
+            Vector3Int gridPos = WorldToCell(position);
+            
+            tower.WorldPosition = CellToWorld(gridPos);
+            tower.GridPosition  = WorldToCell(position);
+
+            tower.Team = team;
+
+            _map.PlaceObject(tower);
+        }
+    }
+
     public Vector3Int WorldToCell(Vector3 worldPosition) => _map.WorldToCell(worldPosition);
-    public Vector3 CellToWorld(Vector3Int cellPosition) => _map.CellToWorld(cellPosition);
+    public Vector3 CellToWorld(Vector3Int cellPosition)  => _map.CellToWorld(cellPosition);
 
     public bool CanPlace(TowerEntityBase pos) => _map.CanPlaceObject(pos);
 

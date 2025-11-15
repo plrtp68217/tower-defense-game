@@ -31,6 +31,9 @@ public sealed class StateManager : MonoBehaviour
         InputManager.OnClicked += OnClick;
         InputManager.OnPressed += OnPressed;
 
+        BuildingService.BuildTowers(Team.Blue);
+        BuildingService.BuildTowers(Team.Red);
+
         SwitchToState<IdleState, IdleStateContext>();
     }
 
