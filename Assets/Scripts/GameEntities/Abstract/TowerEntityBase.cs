@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IGridable, IDisposable
+public abstract class TowerEntityBase : MonoBehaviour, IPlacable, IGridable, IDisposable
 {
     [SerializeField] protected TowerData _data;
 
@@ -54,37 +54,6 @@ public abstract class TowerEntityBase : MonoBehaviour, IDamagable, IPlacable, IG
     public void Dispose()
     {
         Destroy(gameObject);
-    }
-
-    public void TakeDamage(int damage, Team team)
-    {
-        UnitsCount += damage;
-
-        if (UnitsCount == _data.UnitsPerLevel)
-        {
-            if (team == Team)
-            {
-                Level += 1;
-            }
-            else
-            {
-                Level -= 1;
-            }
-
-            UnitsCount = 0;
-        }
-
-        if (Level == 0)
-        {
-            Team = team;
-            Level = 1;
-            UnitsCount = 0;
-        }
-    }
-
-    public void DealDamage(IDamagable damageTarget)
-    {
-        throw new NotImplementedException();
     }
 
     private void Awake()

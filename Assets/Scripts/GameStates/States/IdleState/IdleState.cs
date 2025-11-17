@@ -32,9 +32,7 @@ public sealed class IdleState : StateBase<IdleStateContext>
 
         _inputManager.GetObjectInMap(LayerMask.NameToLayer(Layers.Objects), out GameObject gameObject);
 
-
         if (gameObject == null) return;
-
 
         if (gameObject.TryGetComponent(out Tower tower))
         {

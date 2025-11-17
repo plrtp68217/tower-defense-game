@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Tower : TowerEntityBase, IPreviewable
+public class Tower : TowerEntityBase, IPreviewable, IDamagable
 {
     private readonly List<Renderer> _previewObjectRenderers = new();
     private readonly Dictionary<Renderer, Material> _originalMaterials = new();
@@ -72,6 +73,7 @@ public class Tower : TowerEntityBase, IPreviewable
 
         _originalMaterials.Clear();
     }
+
     public void SetPreviewMaterial()
     {
 
@@ -97,5 +99,48 @@ public class Tower : TowerEntityBase, IPreviewable
         {
             renderer.material.color = isValid ? _validPreviewColor : _inValidPreviewColor;
         }
+    }
+
+    public void DealDamage(IDamagable damageTarget)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void TakeDamage(int damage, Team team)
+    {
+        UnitsCount += damage;
+
+        if (UnitsCount == _data.UnitsPerLevel)
+        {
+            ChangeLevel(team);
+        }
+
+        if (Level == 0)
+        {
+            ChangeTeam(team);
+        }
+    }
+
+    private void ChangeLevel(Team team)
+    {
+        if (team == Team)
+        {
+            Level += 1;
+        }
+        else
+        {
+            Level -= 1;
+        }
+
+        UnitsCount = 0;
+    }
+
+    private void ChangeTeam(Team team)
+    {
+        Team = team;
+        Level = 1;
+        UnitsCount = 0;
+
+        _targetTowers.Clear();
     }
 }
