@@ -16,6 +16,24 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
 
     private UnitDistributor _distributor;
 
+    private Team _team;
+    private int _level;
+    private int _unitsCount;
+
+    public Team Team
+    {
+        get => _team;
+        set
+        {   
+            _team = value;
+            OnTeamChanged();
+        }
+    }
+
+    public int Level { get => _level; set => _level = value; }
+    public int UnitsCount { get => _unitsCount; set => _unitsCount = value; }
+
+
     private void Start()
     {
         _distributor = new(_targetTowers);
@@ -117,30 +135,32 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
 
         if (Level == 0)
         {
-            ChangeTeam(team);
+            Team = team;
         }
     }
 
     private void ChangeLevel(Team team)
     {
-        if (team == Team)
-        {
-            Level += 1;
-        }
-        else
-        {
-            Level -= 1;
-        }
+        Level = team == Team ? Level + 1 : Level - 1;
 
         UnitsCount = 0;
     }
 
-    private void ChangeTeam(Team team)
+    private void OnTeamChanged()
     {
-        Team = team;
         Level = 1;
         UnitsCount = 0;
 
         _targetTowers.Clear();
+
+        ConnectionService connectionService = FindFirstObjectByType<ConnectionService>();
+        connectionService.ClearConnectionsForTower(this);
+    }
+
+    private void Awake()
+    {
+        _team = _data.Team;
+        _level = _data.Level;
+        _unitsCount = _data.UnitsCount;
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 public class ConnectionService : MonoBehaviour
 {
-    private readonly IList<Connection> _connections = new List<Connection>();
+    private readonly List<Connection> _connections = new List<Connection>();
     private readonly Collider[] _collidersBuffer = new Collider[128];
 
     [field: SerializeField] public GameObject LinePrefab { get; set; }
@@ -32,6 +33,18 @@ public class ConnectionService : MonoBehaviour
         _connections.Remove(connection);
 
         Destroy(connection.gameObject);
+    }
+
+    public void ClearConnectionsForTower(Tower tower)
+    {
+        List<Connection> connectionsToRemove = _connections
+            .Where(connection => connection.StartTower == tower)
+            .ToList();
+
+        foreach (Connection conn in connectionsToRemove)
+        {
+            RemoveConnection(conn);
+        }
     }
 
     public bool IsConnectionBlocked(Tower fromTower, Tower toTower)

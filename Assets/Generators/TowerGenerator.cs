@@ -31,7 +31,7 @@ public class TowerGenerator: MonoBehaviour
         _teamBorderX = Mathf.RoundToInt(_mapWidth * _teamBorder);
     }
 
-    public List<Vector3> GenerateTowers(Team team)
+    public List<Vector3> GenerateTowersByPerlin(Team team)
     {
         List<Vector3> candidates = new();
         List<Vector3> approvedСandidates = new();

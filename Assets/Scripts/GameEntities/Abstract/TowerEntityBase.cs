@@ -8,10 +8,6 @@ public abstract class TowerEntityBase : MonoBehaviour, IPlacable, IGridable, IDi
 
     private Vector3 _worldPosition;
 
-    public Team Team { get; set; }
-    public int Level { get; set; }
-    public int UnitsCount { get; set; }
-
     public Vector2Int Size { get => _data.Size; }
 
     public Vector3 WorldPosition 
@@ -54,12 +50,5 @@ public abstract class TowerEntityBase : MonoBehaviour, IPlacable, IGridable, IDi
     public void Dispose()
     {
         Destroy(gameObject);
-    }
-
-    private void Awake()
-    {
-        Team = _data.Team;
-        Level = _data.Level;
-        UnitsCount = _data.UnitsCount;
     }
 }

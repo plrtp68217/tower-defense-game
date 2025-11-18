@@ -10,7 +10,7 @@ public class BuildingService : MonoBehaviour
 
     public void BuildTowers(Team team)
     {
-        List<Vector3> towerPositions = _towerGenerator.GenerateTowers(team);
+        List<Vector3> towerPositions = _towerGenerator.GenerateTowersByPerlin(team);
 
         Debug.Log(towerPositions.Count);
 
