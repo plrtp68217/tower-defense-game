@@ -12,8 +12,6 @@ public class BuildingService : MonoBehaviour
     {
         List<Vector3> towerPositions = _towerGenerator.GenerateTowersByPerlin(team);
 
-        Debug.Log(towerPositions.Count);
-
         foreach (Vector3 position in towerPositions)
         {
             GameObject towerObject = Instantiate(TowerPrefab);

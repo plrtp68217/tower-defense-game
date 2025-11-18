@@ -31,6 +31,24 @@ public class TowerGenerator: MonoBehaviour
         _teamBorderX = Mathf.RoundToInt(_mapWidth * _teamBorder);
     }
 
+    public List<Vector3> GenerateTowersByRandom(int towersCount, Team team)
+    {
+        List<Vector3> candidates = new();
+
+        int startX = team == Team.Blue ? 0 : _teamBorderX;
+        int endX = team == Team.Blue ? _teamBorderX: _mapWidth;
+        
+        while (candidates.Count != towersCount)
+        {
+            int randomX = RandomUtils.GetRandomValue(startX, endX);
+            int randomY = RandomUtils.GetRandomValue(0, _mapHeight);
+
+            candidates.Add(new Vector3(randomX, 0, randomY));
+        }
+
+        return candidates;
+    }
+
     public List<Vector3> GenerateTowersByPerlin(Team team)
     {
         List<Vector3> candidates = new();
@@ -44,8 +62,6 @@ public class TowerGenerator: MonoBehaviour
             for (int z = 0; z < _mapHeight; z++)
             {
                 float noiseValue = GetPerlinNoiseValue(x, z);
-
-                Debug.Log(noiseValue);
 
                 if (noiseValue > _threshold)
                 {
