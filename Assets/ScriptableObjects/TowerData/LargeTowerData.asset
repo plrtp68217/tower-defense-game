@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adc5db8dcb5408b489df6593b10d08d7, type: 3}
-  m_Name: SmallTowerData
+  m_Name: LargeTowerData
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   Name: Tower
-  Team: 0
-  Level: 1
   UnitPrefab: {fileID: 765568002215973698, guid: 1fe6ab2a11661c14fb6e199537c7fea2, type: 3}
-  UnitsPerLevel: 2
-  UnitsCount: 0
   PreviewMaterial: {fileID: 2100000, guid: e1b04da02713f6f44967b98c66b9ea0e, type: 2}
   Size: {x: 1, y: 1}
+  UnitsPerLevel: 40
+  SpawnInterval: 0.5
+  Level: 3

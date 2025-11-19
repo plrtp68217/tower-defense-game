@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e57e42f0ece75438d8a893fc19c1e2, type: 3}
+  m_Name: TowerLevel1
+  m_EditorClassIdentifier: Assembly-CSharp::TowerLevelData
+  towerMesh: {fileID: 4300000, guid: 5549b472f6f171442a0502f66e8cb6ef, type: 2}
+  towerMaterial: {fileID: 2100000, guid: 6ffcfc670dc763a4cb3f3766072e2785, type: 2}
+  UnitsPerLevel: 5
+  SpawnInterval: 1
+  IsMaxLevel: 0

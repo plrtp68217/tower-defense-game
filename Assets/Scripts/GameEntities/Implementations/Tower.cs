@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Tower : TowerEntityBase, IPreviewable, IDamagable
 {
+    [SerializeField] private List<TowerLevelData> towerLevelsData;
+
     private readonly List<Renderer> _previewObjectRenderers = new();
     private readonly Dictionary<Renderer, Material> _originalMaterials = new();
 
@@ -15,6 +17,7 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
     private Color _inValidPreviewColor = Color.red;
 
     private UnitDistributor _distributor;
+    private Coroutine _spawnCoroutine;
 
     private Team _team;
     private int _level;
@@ -25,22 +28,39 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
         get => _team;
         set
         {   
-            _team = value;
-            OnTeamChanged();
+            if (_team != value)
+            {
+                _team = value;
+                OnTeamChanged();
+            }
         }
     }
 
-    public int Level { get => _level; set => _level = value; }
+    public int Level 
+    { 
+        get => _level; 
+        set
+        {
+            if (_level != value)
+            {
+                _level = value;
+                OnLevelChanged();
+            }
+        } 
+    }
+    
     public int UnitsCount { get => _unitsCount; set => _unitsCount = value; }
+
+    public TowerLevelData CurrentLevelData => towerLevelsData[Level - 1];
 
 
     private void Start()
     {
         _distributor = new(_targetTowers);
-        StartCoroutine(SpawnUnits());
+        _spawnCoroutine = StartCoroutine(SpawnUnits(CurrentLevelData.SpawnInterval));
     }
 
-    private IEnumerator SpawnUnits(float spawnInterval = 1f)
+    private IEnumerator SpawnUnits(float spawnInterval)
     {
 
         foreach (var nextTarget in _distributor.NextTarget())
@@ -128,7 +148,7 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
     {
         UnitsCount += damage;
 
-        if (UnitsCount == _data.UnitsPerLevel)
+        if (UnitsCount == CurrentLevelData.UnitsPerLevel)
         {
             ChangeLevel(team);
         }
@@ -141,15 +161,31 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
 
     private void ChangeLevel(Team team)
     {
-        Level = team == Team ? Level + 1 : Level - 1;
+        if (team == Team)
+        {
+            if (CurrentLevelData.IsMaxLevel == false)
+            {
+                Level++;
+            }
+        }
+        else
+        {
+            Level--;
+        }
+    }
+    
+    private void OnLevelChanged()
+    {
+        if (Level == 0) return;
 
         UnitsCount = 0;
+        UpdateMeshAndMaterials();
+        UpdateSpawnCoroutine();
     }
 
     private void OnTeamChanged()
     {
         Level = 1;
-        UnitsCount = 0;
 
         _targetTowers.Clear();
 
@@ -157,10 +193,32 @@ public class Tower : TowerEntityBase, IPreviewable, IDamagable
         connectionService.ClearConnectionsForTower(this);
     }
 
+    private void UpdateMeshAndMaterials()
+    {
+        var meshFilter = GetComponentInChildren<MeshFilter>();
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+        if (meshFilter != null && CurrentLevelData.towerMesh != null)
+        {
+            meshFilter.mesh = CurrentLevelData.towerMesh;
+        }
+
+        if (meshRenderer != null && CurrentLevelData.towerMaterial != null)
+        {
+            meshRenderer.material = CurrentLevelData.towerMaterial;
+        }
+    }
+
+    private void UpdateSpawnCoroutine()
+    {
+        StopCoroutine(_spawnCoroutine);
+        _spawnCoroutine = StartCoroutine(SpawnUnits(CurrentLevelData.SpawnInterval));
+    }
+
     private void Awake()
     {
-        _team = _data.Team;
-        _level = _data.Level;
-        _unitsCount = _data.UnitsCount;
+        _team = Team.Blue;
+        _level = 1;
+        _unitsCount = 0;
     }
 }

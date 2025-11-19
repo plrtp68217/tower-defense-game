@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MediumTowerData
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   Name: Tower
-  EntityTeam: 0
-  Level: 1
   UnitPrefab: {fileID: 765568002215973698, guid: 1fe6ab2a11661c14fb6e199537c7fea2, type: 3}
-  UnitsPerLevel: 10
   PreviewMaterial: {fileID: 2100000, guid: e1b04da02713f6f44967b98c66b9ea0e, type: 2}
-  Size: {x: 2, y: 1}
+  Size: {x: 1, y: 1}
+  UnitsPerLevel: 20
+  SpawnInterval: 0.75
+  Level: 2
